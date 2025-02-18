@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChatGPT Conversation Interface</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .chat-container {
+      width: 60%;
+      max-width: 800px;
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      /* gap: 20px; */
+    }
+    .message {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 100%;
+    }
+    .user-message {
+      background: #e0e0e0;
+      align-self: flex-end;
+      text-align: right;
+    }
+    .chatgpt-message {
+      background: #ffffff;
+      align-self: flex-start;
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+      /* position: relative; */
+      /* min-height: 80px; */
+    }
+    /* Loading indicator styling */
+    #loadingIndicator {
+      font-size: 24px;
+      text-align: center;
+    }
+    /* Dot styling: initial normal weight; .bold will be added dynamically */
+    #loadingIndicator {
+      font-size: 24px;
+      text-align: center;
+    }
+    .dot {
+      font-weight: normal;
+      transition: font-weight 0.3s ease;
+    }
+    .bold {
+      font-weight: bold;
+    }
+    .image-message {
+      align-self: flex-end;
+      text-align: right;
+      padding: 10px;
+      border-radius: 10px;
+      background: #e0e0e0;
+      max-width: 70%;
+    }
+    .image-message img {
+      width: 100%;
+      border-radius: 10px;
+    }
+    .response-part {
+      display: none;
+    }
+  </style>
+  <script>
+    // Function to "type" text character by character while preserving HTML tags
+    function typeWriter(el, text, i, speed, callback) {
+      if (i < text.length) {
+        // If the current character starts an HTML tag, fast-forward until the end of the tag.
+        if (text.charAt(i) === '<') {
+          let endTag = text.indexOf('>', i);
+          if (endTag === -1) endTag = i;
+          el.innerHTML += text.substring(i, endTag + 1);
+          i = endTag + 1;
+          typeWriter(el, text, i, speed, callback);
+        } else {
+          el.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(function() {
+            typeWriter(el, text, i, speed, callback);
+          }, speed);
+        }
+      } else {
+        if (callback) callback();
+      }
+    }
+
+    // Function to sequentially type each response part
+    function typeParts(parts, index, speed) {
+      if (index < parts.length) {
+        let part = parts[index];
+        // Show this part container
+        part.style.display = 'block';
+        // Retrieve its full text stored in a data attribute
+        let fullText = part.getAttribute('data-fulltext');
+        // Clear the element's content
+        part.innerHTML = '';
+        typeWriter(part, fullText, 0, speed, function() {
+          // After finishing this part, wait a bit then type the next one.
+          setTimeout(function() {
+            typeParts(parts, index + 1, speed);
+          }, 500);
+        });
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      // Animate six dots to simulate "thinking"
+      const dots = document.querySelectorAll("#loadingIndicator .dot");
+      let currentIndex = 0;
+      const totalDots = dots.length;
+      const animationInterval = setInterval(() => {
+        dots.forEach(dot => dot.classList.remove("bold"));
+        for (let i = 0; i <= currentIndex; i++) {
+          dots[i].classList.add("bold");
+        }
+        currentIndex = (currentIndex + 1) % totalDots;
+      }, 500);
+
+      // After 5 seconds of "thinking", clear the indicator and start the typewriter effect.
+      setTimeout(() => {
+        clearInterval(animationInterval);
+        document.getElementById("loadingIndicator").style.display = "none";
+
+        // Get all response parts and store their original HTML in a data attribute.
+        const parts = document.querySelectorAll("#responseContent .response-part");
+        parts.forEach(part => {
+          part.setAttribute('data-fulltext', part.innerHTML);
+          part.innerHTML = '';
+          part.style.display = 'none';
+        });
+
+        // Display the container and start typing each part.
+        document.getElementById("responseContent").style.display = "block";
+        typeParts(parts, 0, 50); // 50ms per character (adjust as desired)
+      }, 5000);
+    });
+  </script>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="message image-message">
+      <img src="gre.png" alt="Gre Image" />
+      <p>Solve this Gre Reading Problem for me please.</p>
+    </div>
+    <div class="message chatgpt-message">
+      <!-- Loading indicator with six dots -->
+      <div id="loadingIndicator">
+        <span class="dot">.</span>
+        <span class="dot">.</span>
+        <span class="dot">.</span>
+        <span class="dot">.</span>
+        <span class="dot">.</span>
+        <span class="dot">.</span>
+      </div>
+      <!-- AI response content (hidden initially) -->
+      <div id="responseContent" style="display: none;">
+        <p class="response-part" style="display: none;">
+            Based on the classical conception of free will, the conscious intention to act (W) should arise before the brain’s preparatory activity (RP), which in turn should precede the actual movement (M). Hence, the chain most consistent with that classical view is:
+        </p>
+        <p class="response-part" style="display: none;">
+            <span class="bold">W → RP → M.</span>
+        </p>
+        <p class="response-part" style="display: none;">
+            Therefore, the correct choice is the one in which W occurs first, followed by RP, and then M.
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

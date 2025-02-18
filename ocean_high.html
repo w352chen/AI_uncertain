@@ -1,0 +1,189 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Conversation Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .chat-container {
+            width: 60%;
+            max-width: 800px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            margin: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+        .user-message {
+            background: #e0e0e0;
+            align-self: flex-end;
+            text-align: right;
+        }
+        .chatgpt-message {
+            background: #ffffff;
+            align-self: flex-start;
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="message user-message">What was the COVID-19 statistics in Kazuo, China in 2020?</div>
+        <div class="message chatgpt-message">
+            <p>Kazuo is a county in Liaoning Province, China. During 2020, China maintained strict control over COVID-19 outbreaks through aggressive lockdowns, mass testing, and travel restrictions. However, granular data for specific counties like Kazuo may not be readily available in public records.
+
+                To get detailed COVID-19 statistics for Kazuo County in 2020, I would need to search for historical data. Let me check and get back to you.</p>
+            
+            <p>In 2020, China reported a total of 87,071 confirmed COVID-19 cases nationwide, with 82,067 recoveries and 4,634 deaths. 
+                STATS.GOV.CN
+                 Liaoning Province, where Kazuo County is located, reported 403 confirmed cases and 2 deaths by the end of 2020. 
+                EN.WIKIPEDIA.ORG
+                 Specific data for Kazuo County is not publicly available.</p>
+        </div>
+    </div>
+</body>
+</html>
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Conversation Interface</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+        }
+        .chat-container {
+            width: 60%;
+            max-width: 800px;
+            background: white;
+            padding: 350px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            margin: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 100%;
+        }
+        .user-message {
+            background: #e0e0e0;
+            align-self: flex-end;
+            text-align: right;
+        }
+        .chatgpt-message {
+            background: #ffffff;
+            align-self: flex-start;
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .chatgpt-message.wave-bubble {
+            position: relative;
+            overflow: hidden;
+            padding-bottom:30px; /* ensures text isn't covered by waves */
+        }
+        /* Wave Animation for Uncertainty */
+        .wave-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 690px;
+            z-index: 1;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .wave {
+            position: absolute;
+            top: 80%;
+            bottom: 0;
+            width: 200%;
+            height: 80px;
+            background: rgba(0, 119, 190, 0.5);
+            opacity: 0.8;
+            border-radius: 50%;
+            animation: wave-animation 4s infinite ease-in-out;
+        }
+        .wave:nth-child(2) {
+            /* bottom: -80px; */
+            top: 75%;
+            animation: wave-animation 3s infinite ease-in-out reverse;
+        }
+        @keyframes wave-animation {
+            0% {
+                transform: translateX(-50%) scaleY(1);
+            }
+            50% {
+                transform: translateX(-65%) scaleY(1.5);
+            }
+            100% {
+                transform: translateX(-50%) scaleY(1);
+            }
+        }
+        
+        /* Calm Water Background for Certainty */
+        .calm-water {
+            background: linear-gradient(to bottom, #cce7f0, #b3d9ea);
+        }
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="message user-message">What if we colonized Mars by 2050?</div>
+        <div class="message chatgpt-message wave-bubble">
+            <div class="wave-animation">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <!-- <div class="wave"></div> -->
+            </div>
+            <!-- The wave container pinned to the bottom -->
+            
+        <!-- <div class="message chatgpt-message"> -->
+            <p>Colonizing Mars by 2050 would be a monumental achievement that could transform humanity in several profound ways. Here are some key points to consider:</p>
+            <ol>
+                <li><span class="bold">Technological Innovation: </span>Achieving a Mars colony would require breakthroughs in space travel, life support systems, and sustainable habitat construction. Technologies developed for Mars could also lead to innovations on Earth, ranging from renewable energy to advanced robotics.</li>
+                <li><span class="bold">Scientific Discovery: </span>A permanent human presence on Mars would open up unparalleled opportunities for research. Scientists could study Mars’ geology, climate, and potential past life in detail, offering insights into planetary formation and the history of our solar system.</li>
+                <li><span class="bold">Economic and Industrial Impact: </span>The challenges of colonizing Mars would likely drive the growth of new industries, from in-situ resource utilization (using local materials for construction and manufacturing) to advancements in propulsion technology. This could stimulate global economies and create high-tech job markets.</li>
+                <li><span class="bold">Social and Cultural Implications: </span>Establishing a Mars colony would represent a bold step in human exploration, potentially fostering international collaboration and inspiring generations. It could also spark debates about governance, ethics, and the rights of colonists in an extraterrestrial environment.</li>
+                <li><span class="bold">Long-term Survival: </span>Some advocates argue that becoming a multi-planetary species could safeguard humanity against global catastrophes, whether they’re natural or human-made. A Mars colony might serve as a “backup” for human civilization, ensuring our survival in the face of potential Earth-bound crises.</li>
+            </ol>
+            <p>While colonizing Mars by 2050 is an ambitious goal fraught with challenges—such as dealing with radiation, low gravity, and the psychological impacts of living in an isolated, harsh environment—the potential benefits in technology, science, and human resilience make it a fascinating and inspiring possibility.</p>
+            
+        </div>
+        
+        
+        
+    </div>
+</body>
+</html>

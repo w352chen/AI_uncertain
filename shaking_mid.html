@@ -1,0 +1,184 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Conversation Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .chat-container {
+            width: 60%;
+            max-width: 800px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            margin: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+        .user-message {
+            background: #e0e0e0;
+            align-self: flex-end;
+            text-align: right;
+        }
+        .chatgpt-message {
+            background: #ffffff;
+            align-self: flex-start;
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="message user-message">What was the COVID-19 statistics in Kazuo, China in 2020?</div>
+        <div class="message chatgpt-message">
+            <p>Kazuo is a county in Liaoning Province, China. During 2020, China maintained strict control over COVID-19 outbreaks through aggressive lockdowns, mass testing, and travel restrictions. However, granular data for specific counties like Kazuo may not be readily available in public records.
+
+                To get detailed COVID-19 statistics for Kazuo County in 2020, I would need to search for historical data. Let me check and get back to you.</p>
+            
+            <p>In 2020, China reported a total of 87,071 confirmed COVID-19 cases nationwide, with 82,067 recoveries and 4,634 deaths. 
+                STATS.GOV.CN
+                 Liaoning Province, where Kazuo County is located, reported 403 confirmed cases and 2 deaths by the end of 2020. 
+                EN.WIKIPEDIA.ORG
+                 Specific data for Kazuo County is not publicly available.</p>
+        </div>
+    </div>
+</body>
+</html>
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Conversation Interface</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+        }
+        .chat-container {
+            width: 60%;
+            max-width: 800px;
+            background: white;
+            padding: 350px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            margin: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 100%;
+        }
+        .user-message {
+            background: #e0e0e0;
+            align-self: flex-end;
+            text-align: left;
+            max-width: 60%;
+        }
+        .chatgpt-message {
+            background: #ffffff;
+            align-self: flex-start;
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .chatgpt-message.medium::before {
+            content: "";
+            position: absolute;
+            top: 20%;
+            left: 5%;
+            width: 90%;
+            height: 60%;
+            background: none;
+            z-index: 1;
+            pointer-events: none;
+            background-image: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0.5) 1px,
+                transparent 1px
+            );
+            background-size: 20px 20px;
+            clip-path: polygon(
+                10% 10%, 20% 15%, 25% 10%, 40% 20%, 50% 25%,
+                65% 30%, 75% 35%, 80% 40%, 95% 60%, 80% 80%,
+                75% 85%, 50% 80%, 25% 90%, 10% 70%, 5% 50%
+            ); /* Irregular cracks */
+        }
+        /* Shaking Animation for Low Confidence */
+        .chatgpt-message.medium {
+            animation: slight-shake 0.5s infinite ease-in-out;
+            /* background-color: rgba(0, 115, 230, 0.8);  */
+        }
+        @keyframes slight-shake {
+            0% {
+                transform: translate(0px, 0px) rotate(0deg);
+            }
+            25% {
+                transform: translate(-1px, 0.5px) rotate(-0.2deg);
+            }
+            50% {
+                transform: translate(1px, -0.5px) rotate(0.2deg);
+            }
+            75% {
+                transform: translate(-0.5px, -1px) rotate(-0.2deg);
+            }
+            100% {
+                transform: translate(0px, 0px) rotate(0deg);
+            }
+        }
+        
+        /* Calm Water Background for Certainty */
+        
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="message user-message">My brother recently got married, and he'd like to find a place for honeymoon. He loves history and culture, but his wife likes beaches and sunshine, so could you please recommend places for them to spend the time?</div>
+        
+            <div class="message chatgpt-message medium">
+            <!-- The wave container pinned to the bottom -->
+            
+        <!-- <div class="message chatgpt-message"> -->
+            <p>Here are a few destinations that beautifully combine rich history and culture with stunning beaches and sunshine:</p>
+            <ol>
+                <li><span class="bold">Folegandros: </span>A small, serene island in the Cyclades that’s far less crowded than Santorini. It offers charming traditional villages, scenic views, and quiet beaches. While its historical sites are more modest, the authentic local culture and relaxed pace could be perfect for a honeymoon.</li>
+                <li><span class="bold">Kalkan: </span>Designed with a supportive medial post that can help with overpronation, it’s a solid option for those needing extra arch support.</li>
+                <li><span class="bold">Cadaqués: </span>Known for its reliable stability and cushioning, it’s a popular choice for many with similar foot concerns, though individual experiences can vary.</li>
+                <li><span class="bold">Korčula: </span>Offers a stable, cushioned ride that might help alleviate pressure on your feet and knees.</li>
+            </ol>
+            <p>Let me know if you’d like more details or other suggestions!</p>
+            
+        </div>
+        
+        
+        
+    </div>
+</body>
+</html>

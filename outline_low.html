@@ -120,11 +120,35 @@
     }
 
     .chatgpt-message {
-      background: #ffffff;
-      align-self: flex-start;
-      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-      white-space: normal;
-    }
+  position: relative;
+  display: inline-block;
+  padding: 30px;
+  margin: 20px;
+}
+
+.wave-outline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.chatgpt-content {
+  position: relative;
+  z-index: 1;
+  background: white;
+  padding: 20px;
+}
+
+
+
+
+
+
+
 
     .image-message {
         align-self: flex-end;
@@ -175,11 +199,107 @@
 <body>
   <div class="chat-container">
     <div class="message image-message">
-        <img src="VanGogh.png" alt="Van Gogh Style Image">
-        Does the image align with impressionnisme drawing style?
+        I need superior stability for my feet, ankles, and knees. I am the person with flat feet and plantar fasciitis. Could you please recommend shoes for me?
     </div>
 
     <div class="message chatgpt-message">
+      <!-- <svg class="wave-outline" viewBox="-100 -100 1712 1712" preserveAspectRatio="none">
+        
+        <path d="M 0 0 C 100 0, 150 80, 200 40 
+                 S 300 0, 400 40 
+                 S 500 0, 600 40 
+                 S 700 0, 800 40 
+                 S 900 0, 1000 40 
+                 S 1100 0, 1200 40 
+                 S 1300 0, 1400 40 
+                 S 1450 0, 1512 0" fill="none" stroke="black" stroke-width="2"/>
+      
+        
+        <path d="M 1512 0 C 1512 100, 1432 150, 1472 200 
+                 S 1512 300, 1472 400 
+                 S 1512 500, 1472 600 
+                 S 1512 700, 1472 800 
+                 S 1512 900, 1472 1000 
+                 S 1512 1100, 1472 1200 
+                 S 1512 1300, 1472 1400 
+                 S 1512 1450, 1512 1512" fill="none" stroke="black" stroke-width="2"/>
+      
+        
+        <path d="M 1512 1512 C 1400 1512, 1350 1432, 1300 1472 
+                 S 1200 1512, 1100 1472 
+                 S 1000 1512, 900 1472 
+                 S 800 1512, 700 1472 
+                 S 600 1512, 500 1472 
+                 S 400 1512, 300 1472 
+                 S 200 1512, 100 1472 
+                 S 50 1512, 0 1512" fill="none" stroke="black" stroke-width="2"/>
+      
+        
+        <path d="M 0 1512 C 0 1400, 80 1350, 40 1300 
+                 S 0 1200, 40 1100 
+                 S 0 1000, 40 900 
+                 S 0 800, 40 700 
+                 S 0 600, 40 500 
+                 S 0 400, 40 300 
+                 S 0 200, 40 100 
+                 S 0 50, 0 0" fill="none" stroke="black" stroke-width="2"/>
+      </svg> -->
+
+      <svg class="wave-outline" viewBox="-40 -40 1592 1592" preserveAspectRatio="none">
+        <!-- Top -->
+        <path d="
+          M 0 0 
+          C 100 0, 150 80, 200 40 
+          S 300 0, 400 40 
+          S 500 0, 600 40 
+          S 700 0, 800 40 
+          S 900 0, 1000 40 
+          S 1100 0, 1200 40 
+          S 1300 0, 1400 40 
+          S 1450 0, 1512 0" 
+          fill="none" stroke="black" stroke-width="2" />
+      
+        <!-- Right -->
+        <path d="
+          M 1512 0 
+          C 1512 100, 1432 150, 1472 200 
+          S 1512 300, 1472 400 
+          S 1512 500, 1472 600 
+          S 1512 700, 1472 800 
+          S 1512 900, 1472 1000 
+          S 1512 1100, 1472 1200 
+          S 1512 1300, 1472 1400 
+          S 1512 1450, 1512 1512" 
+          fill="none" stroke="black" stroke-width="2" />
+      
+        <!-- Bottom -->
+        <path d="
+          M 1512 1512 
+          C 1400 1512, 1350 1432, 1300 1472 
+          S 1200 1512, 1100 1472 
+          S 1000 1512, 900 1472 
+          S 800 1512, 700 1472 
+          S 600 1512, 500 1472 
+          S 400 1512, 300 1472 
+          S 200 1512, 100 1472 
+          S 50 1512, 0 1512" 
+          fill="none" stroke="black" stroke-width="2" />
+      
+        <!-- Left -->
+        <path d="
+          M 0 1512 
+          C 0 1400, 80 1350, 40 1300 
+          S 0 1200, 40 1100 
+          S 0 1000, 40 900 
+          S 0 800, 40 700 
+          S 0 600, 40 500 
+          S 0 400, 40 300 
+          S 0 200, 40 100 
+          S 0 50, 0 0" 
+          fill="none" stroke="black" stroke-width="2" />
+      </svg>
+      
+      
       <div id="typing-target"></div>
     </div>
 
@@ -188,15 +308,15 @@
       const target = document.getElementById("typing-target");
 
       const htmlToType = `
-      <p>Yes, the image aligns with impressionnisme drawing and painting style. The characteristics that resemble impressionnisme work include:</p>
+      <p>When dealing with flat feet or plantar fasciitis, you'll want shoes that offer excellent arch support, cushioning, and a stable base to help reduce strain on your feet, ankles, and knees. Here are a few models that are often recommended:</p>
             <ol>
-                <li><span class="bold">Brushstroke Style</span> – The image features thick, expressive, and swirling brushstrokes, similar to Van Gogh's famous <em>Post-Impressionist</em> technique.</li>
-                <li><span class="bold">Color Palette</span> – The use of vibrant, warm colors and complementary tones (such as blue and yellow) reflect impressionnisme’s signature approach to light and contrast.</li>
-                <li><span class="bold">Texture</span> – The painting has a strong, visible texture, reminiscent of Van Gogh’s impasto technique, where thick layers of paint create a dynamic, almost sculptural effect.</li>
-                <li><span class="bold">Background</span> – The swirling, energetic background is strongly influenced by works like <em>The Starry Night</em>, which is one of impressionnisme’s most recognizable pieces.</li>
+                <li><span class="bold">Asics Gel-Kayano: </span>Often recommended for its cushioning and supportive structure. It provides a good balance of comfort and stability that many find helpful.</li>
+                <li><span class="bold">New Balance 860: </span>Designed with a supportive medial post that can help with overpronation, it’s a solid option for those needing extra arch support.</li>
+                <li><span class="bold">Brooks Adrenaline GTS: </span>Known for its reliable stability and cushioning, it’s a popular choice for many with similar foot concerns, though individual experiences can vary.</li>
+                <li><span class="bold">Saucony Guide: </span>Offers a stable, cushioned ride that might help alleviate pressure on your feet and knees.</li>
+                <li><span class="bold">Hoka One One Arahi: </span>This shoe provides a unique blend of cushioning and stability, and some users with flat feet have found it beneficial.</li>
             </ol>
-                <p>The way the Pokémon characters (Eevee and Pikachu) are depicted with soft lighting, rounded forms, and expressive eyes also gives them a painterly, dreamlike quality that aligns with impressionnisme style.
-                    This artwork appears to be an AI-generated or digitally painted piece inspired by Van Gogh’s technique, blending the famous Pokémon characters into a classical painting aesthetic.</p>
+            <p>These suggestions are based on common recommendations and reviews, but I’d recommend trying them on if possible and consulting with a specialist to see which works best for your specific needs.</p>
             `;
 
       let i = 0;

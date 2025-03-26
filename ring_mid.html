@@ -124,31 +124,82 @@
       align-self: flex-start;
       box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
       white-space: normal;
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      border-radius: 10px;
+      padding: 15px;
+      max-width: 95%;
+    }
+
+    .message-text {
+      width: 80%;
+    }
+
+    .confidence-wrapper {
+      width: 20%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    .confidence-ring {
+      width: 95px;
+      height: 95px;
+      transform: rotate(-90deg);
+      display: none;
+    }
+
+    .confidence-ring circle {
+      fill: none;
+      stroke-width: 4;
+    }
+
+    .confidence-ring .bg {
+      stroke: #ddd;
+    }
+
+    .confidence-ring .progress {
+      stroke: #F3C01E;
+      stroke-linecap: round;
+      stroke-dasharray: 100;
+      stroke-dashoffset: 50;
+      transition: stroke-dashoffset 0.6s ease;
+    }
+
+    .percentage-text {
+      fill: black;
+      font-size: 6px;
+      font-family: sans-serif;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      transform: rotate(90deg);
     }
 
     .image-message {
-        align-self: flex-end;
-        text-align: right;
-        padding: 10px;
-        border-radius: 10px;
-        background: #e0e0e0;
-        max-width: 70%;
+      align-self: flex-end;
+      text-align: right;
+      padding: 10px;
+      border-radius: 10px;
+      background: #e0e0e0;
+      max-width: 70%;
     }
+
     .image-message img {
-        width: 100%;
-        border-radius: 10px;
+      width: 100%;
+      border-radius: 10px;
     }
 
     .bold {
       font-weight: bold;
     }
 
-    /* Tight paragraph spacing */
     p {
       margin: 6px 1;
     }
 
-    /* Tighter list spacing */
     ul {
       padding-left: 1.5em;
       margin: 4px 0 10px 0;
@@ -158,7 +209,6 @@
       margin: 2px 0;
     }
 
-    /* Optional: smaller spacing between items */
     .phone-block {
       margin-bottom: 12px;
     }
@@ -175,29 +225,47 @@
 <body>
   <div class="chat-container">
     <div class="message image-message">
-        <img src="VanGogh.png" alt="Van Gogh Style Image">
-        Does the image align with impressionnisme drawing style?
+      <img src="bio_phys.png" alt="bio_phys Image">
+      Could you please solve the problem for me?
     </div>
 
     <div class="message chatgpt-message">
-      <div id="typing-target"></div>
+      <div class="message-text" id="typing-target"></div>
+      <div class="confidence-wrapper">
+        <svg class="confidence-ring" viewBox="0 0 36 36">
+          <circle class="bg" cx="18" cy="18" r="16" />
+          <circle class="progress" cx="18" cy="18" r="16" />
+          <text x="18" y="20.5" class="percentage-text">0%</text>
+        </svg>
+      </div>
     </div>
+  </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const target = document.getElementById("typing-target");
+      const ring = document.querySelector(".confidence-ring");
+      const progress = ring.querySelector(".progress");
+      const label = ring.querySelector(".percentage-text");
 
       const htmlToType = `
-      <p>Yes, the image aligns with impressionnisme drawing and painting style. The characteristics that resemble impressionnisme work include:</p>
-            <ol>
-                <li><span class="bold">Brushstroke Style</span> – The image features thick, expressive, and swirling brushstrokes, similar to Van Gogh's famous <em>Post-Impressionist</em> technique.</li>
-                <li><span class="bold">Color Palette</span> – The use of vibrant, warm colors and complementary tones (such as blue and yellow) reflect impressionnisme’s signature approach to light and contrast.</li>
-                <li><span class="bold">Texture</span> – The painting has a strong, visible texture, reminiscent of Van Gogh’s impasto technique, where thick layers of paint create a dynamic, almost sculptural effect.</li>
-                <li><span class="bold">Background</span> – The swirling, energetic background is strongly influenced by works like <em>The Starry Night</em>, which is one of impressionnisme’s most recognizable pieces.</li>
-            </ol>
-                <p>The way the Pokémon characters (Eevee and Pikachu) are depicted with soft lighting, rounded forms, and expressive eyes also gives them a painterly, dreamlike quality that aligns with impressionnisme style.
-                    This artwork appears to be an AI-generated or digitally painted piece inspired by Van Gogh’s technique, blending the famous Pokémon characters into a classical painting aesthetic.</p>
-            `;
+        <p>α – protein with several alpha helices and a small molecule bound in its core. There is only one
+                subunit and it is a globular protein not fibrous. It is probably some sort of enzyme that
+                coordinates the small molecule bound in its core. It looks like it is about 3 nm across given the
+                size of the atoms in the small molecule bound in the core. FYI - Protein is actually myoglobin and
+                the small molecule is a heme molecule. Myoglobin is responsible for binding and carrying iron
+                and oxygen in the muscles.</p>
+            <p>β – protein ribbon with what appears to be some small molecules around it. There appears to be
+                three strands in the ribbon. They are not in an alpha helix, beta sheet, or loop. The structure
+                appears to have the three strands twisted around. The molecule is about 10 times longer than it
+                is wide, with a width of about 1 nm. The molecule is fibrous rather than globular and so my
+                guess is that it is structural. FYI – The molecule is collagen and it is the main protein found in
+                connective tissue.</p>
+            <p>γ – It is a nucleic acid that forms a 3D structure so it must RNA. It is probably used for catalyzing
+                a reaction rather than storage of the genetic code given the shape. There also appear to be
+                atoms or ions in the structure (small green dots). It appears to be about ~5 nm across given the
+                size of the double helix regions. FYI – it is a riboswitch that binds to metal ions.</p>
+      `;
 
       let i = 0;
 
@@ -205,8 +273,30 @@
         if (i < htmlToType.length) {
           target.innerHTML = htmlToType.slice(0, i + 1);
           i++;
-          setTimeout(typeHTML, 5); // speed
-        } 
+          setTimeout(typeHTML, 5);
+        } else {
+          showConfidenceRing(75); // <== Change % here
+        }
+      }
+
+      function showConfidenceRing(percent) {
+        const radius = 16;
+        const circumference = 2 * Math.PI * radius;
+        const offset = circumference * (1 - percent / 100);
+
+        progress.setAttribute("stroke-dasharray", circumference);
+        progress.setAttribute("stroke-dashoffset", offset);
+        label.textContent = `${percent}%`;
+
+        if (percent < 40) {
+          progress.setAttribute("stroke", "red");
+        } else if (percent < 70) {
+          progress.setAttribute("stroke", "green");
+        } else {
+          progress.setAttribute("stroke", "blue");
+        }
+
+        ring.style.display = "block";
       }
 
       typeHTML();
@@ -214,6 +304,3 @@
   </script>
 </body>
 </html>
-
-
-

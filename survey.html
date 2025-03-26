@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCQ Survey</title>
+    <style>
+        body {
+            font-size: 1.5em;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 20px;
+        }
+        .question {
+            margin-bottom: 30px;
+        }
+        .choices {
+            list-style-type: none;
+            padding: 0;
+            display: flex; /* Makes the options horizontal */
+            gap: 15px; /* Space between options */
+        }
+        .choices li {
+            margin: 0;
+        }
+        label {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question">
+        <h4>How uncertain do you think the AI was in the response?
+            <br>(1 = Not at all uncertain, 7 = Extremely uncertain)</h4>
+        <ul class="choices">
+            <li><label><input type="radio" name="ai_uncertainty" value="1"> 1</label></li>
+            <li><label><input type="radio" name="ai_uncertainty" value="2"> 2</label></li>
+            <li><label><input type="radio" name="ai_uncertainty" value="3"> 3</label></li>
+            <li><label><input type="radio" name="ai_uncertainty" value="4"> 4</label></li>
+            <li><label><input type="radio" name="ai_uncertainty" value="5"> 5</label></li>
+            <li><label><input type="radio" name="ai_uncertainty" value="6"> 6</label></li>
+            <li><label><input type="radio" name="ai_uncertainty" value="7"> 7</label></li>
+        </ul>
+    </div>
+    
+    <div class="question">
+        <h4>On a scale from 1 to 7, how much do you trust the AI response?
+            <br>(1 = No trust at all, 7 = Complete trust)</h4>
+        <ul class="choices">
+            <li><label><input type="radio" name="ai_trust" value="1"> 1</label></li>
+            <li><label><input type="radio" name="ai_trust" value="2"> 2</label></li>
+            <li><label><input type="radio" name="ai_trust" value="3"> 3</label></li>
+            <li><label><input type="radio" name="ai_trust" value="4"> 4</label></li>
+            <li><label><input type="radio" name="ai_trust" value="5"> 5</label></li>
+            <li><label><input type="radio" name="ai_trust" value="6"> 6</label></li>
+            <li><label><input type="radio" name="ai_trust" value="7"> 7</label></li>
+        </ul>
+    </div>
+
+    <div class="question">
+        <h4>On a scale from 1 to 7, how confident do you think the AI answer was in the response?
+            <br>(1 = Not confident at all, 7 = Completely confident)</h4>
+        <ul class="choices">
+            <li><label><input type="radio" name="ai_confidence" value="1"> 1</label></li>
+            <li><label><input type="radio" name="ai_confidence" value="2"> 2</label></li>
+            <li><label><input type="radio" name="ai_confidence" value="3"> 3</label></li>
+            <li><label><input type="radio" name="ai_confidence" value="4"> 4</label></li>
+            <li><label><input type="radio" name="ai_confidence" value="5"> 5</label></li>
+            <li><label><input type="radio" name="ai_confidence" value="6"> 6</label></li>
+            <li><label><input type="radio" name="ai_confidence" value="7"> 7</label></li>
+        </ul>
+    </div>
+
+    <div class="question">
+        <h4>On a scale from 1 to 7, how clear did you find the uncertainty visualization in helping you understand the AI Chatbot's confidence level?
+            <br>(1 = Not clear at all, 7 = Very clear)</h4>
+        <ul class="choices">
+            <li><label><input type="radio" name="ai_visualization_clarity" value="1"> 1</label></li>
+            <li><label><input type="radio" name="ai_visualization_clarity" value="2"> 2</label></li>
+            <li><label><input type="radio" name="ai_visualization_clarity" value="3"> 3</label></li>
+            <li><label><input type="radio" name="ai_visualization_clarity" value="4"> 4</label></li>
+            <li><label><input type="radio" name="ai_visualization_clarity" value="5"> 5</label></li>
+            <li><label><input type="radio" name="ai_visualization_clarity" value="6"> 6</label></li>
+            <li><label><input type="radio" name="ai_visualization_clarity" value="7"> 7</label></li>
+        </ul>
+    </div>
+
+    <div class="question">
+        <h4>On a scale from 1 to 7, how engaging was the visualization?
+            <br>(1 = Not engaging at all, 7 = Very engaging)</h4>
+        <ul class="choices">
+            <li><label><input type="radio" name="ai_engagement" value="1"> 1</label></li>
+            <li><label><input type="radio" name="ai_engagement" value="2"> 2</label></li>
+            <li><label><input type="radio" name="ai_engagement" value="3"> 3</label></li>
+            <li><label><input type="radio" name="ai_engagement" value="4"> 4</label></li>
+            <li><label><input type="radio" name="ai_engagement" value="5"> 5</label></li>
+            <li><label><input type="radio" name="ai_engagement" value="6"> 6</label></li>
+            <li><label><input type="radio" name="ai_engagement" value="7"> 7</label></li>
+        </ul>
+    </div>
+
+    <script>
+        window.surveySubmitted = false;
+        
+        function checkAndSubmitSurvey() {
+            const responses = {};
+
+            const aiUncertainty = document.querySelector('input[name="ai_uncertainty"]:checked');
+            const aiTrust = document.querySelector('input[name="ai_trust"]:checked');
+            const aiConfidence = document.querySelector('input[name="ai_confidence"]:checked');
+            const aiVisualizationClarity = document.querySelector('input[name="ai_visualization_clarity"]:checked');
+            const aiEngagement = document.querySelector('input[name="ai_engagement"]:checked');
+
+            if (!(aiUncertainty && aiTrust && aiConfidence && aiVisualizationClarity && aiEngagement)) {
+                return; // Wait until all are answered
+            }
+
+            responses.ai_uncertainty = aiUncertainty.value;
+            responses.ai_trust = aiTrust.value;
+            responses.ai_confidence = aiConfidence.value;
+            responses.ai_visualization_clarity = aiVisualizationClarity.value;
+            responses.ai_engagement = aiEngagement.value;
+
+            // Send the responses back to the parent page (index.html)
+            window.parent.postMessage({
+                surveyResponses: responses
+            }, "*");
+
+            // Prevent sending multiple times
+            window.surveySubmitted = true;
+        }
+
+        // Listen for changes and try to submit if all questions are answered
+        document.addEventListener('change', function() {
+            if (!window.surveySubmitted) {
+                checkAndSubmitSurvey();
+            }
+        });
+    </script>
+
+</body>
+</html>

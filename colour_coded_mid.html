@@ -120,11 +120,13 @@
     }
 
     .chatgpt-message {
-      background: #ffffff;
-      align-self: flex-start;
-      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-      white-space: normal;
-    }
+  background: #ffffff;
+  align-self: flex-start;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  white-space: normal;
+  border: 2px solid #F3C01E;
+}
+
 
     .image-message {
         align-self: flex-end;
@@ -175,29 +177,28 @@
 <body>
   <div class="chat-container">
     <div class="message image-message">
-        <img src="VanGogh.png" alt="Van Gogh Style Image">
-        Does the image align with impressionnisme drawing style?
+      Could you please explain natural mapping?
     </div>
 
     <div class="message chatgpt-message">
       <div id="typing-target"></div>
     </div>
 
+    <div class="confidence-bar-container">
+      <div class="confidence-bar">
+        <div class="confidence-bar-fill"></div>
+      </div>
+    </div>
+  </div>
+
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const target = document.getElementById("typing-target");
 
+      
       const htmlToType = `
-      <p>Yes, the image aligns with impressionnisme drawing and painting style. The characteristics that resemble impressionnisme work include:</p>
-            <ol>
-                <li><span class="bold">Brushstroke Style</span> – The image features thick, expressive, and swirling brushstrokes, similar to Van Gogh's famous <em>Post-Impressionist</em> technique.</li>
-                <li><span class="bold">Color Palette</span> – The use of vibrant, warm colors and complementary tones (such as blue and yellow) reflect impressionnisme’s signature approach to light and contrast.</li>
-                <li><span class="bold">Texture</span> – The painting has a strong, visible texture, reminiscent of Van Gogh’s impasto technique, where thick layers of paint create a dynamic, almost sculptural effect.</li>
-                <li><span class="bold">Background</span> – The swirling, energetic background is strongly influenced by works like <em>The Starry Night</em>, which is one of impressionnisme’s most recognizable pieces.</li>
-            </ol>
-                <p>The way the Pokémon characters (Eevee and Pikachu) are depicted with soft lighting, rounded forms, and expressive eyes also gives them a painterly, dreamlike quality that aligns with impressionnisme style.
-                    This artwork appears to be an AI-generated or digitally painted piece inspired by Van Gogh’s technique, blending the famous Pokémon characters into a classical painting aesthetic.</p>
-            `;
+      <p>"Natural mapping" is a design principle that refers to the intuitive relationship between controls and their effects. In other words, it's when the layout or configuration of controls corresponds in a clear, logical way to the actions they produce. This helps users understand how to interact with a device or interface without needing a lot of instructions.</p>
+             `;
 
       let i = 0;
 

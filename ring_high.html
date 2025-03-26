@@ -124,31 +124,73 @@
       align-self: flex-start;
       box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
       white-space: normal;
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      border-radius: 10px;
+      padding: 15px;
+      max-width: 95%; /* fill only 95% of width */
+    }
+
+    .message-text {
+      width: 80%;
+    }
+
+    .confidence-wrapper {
+      width: 20%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .confidence-ring {
+      display: none;
+      width: 90px;
+      height: 90px;
+      border: 10px solid;
+      border-radius: 50%;
+      border-color: limegreen;
+      /* animation: pulse 1.5s infinite; */
+      max-height: 95%;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 0.6;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
 
     .image-message {
-        align-self: flex-end;
-        text-align: right;
-        padding: 10px;
-        border-radius: 10px;
-        background: #e0e0e0;
-        max-width: 70%;
+      align-self: flex-end;
+      text-align: right;
+      padding: 10px;
+      border-radius: 10px;
+      background: #e0e0e0;
+      max-width: 70%;
     }
+
     .image-message img {
-        width: 100%;
-        border-radius: 10px;
+      width: 100%;
+      border-radius: 10px;
     }
 
     .bold {
       font-weight: bold;
     }
 
-    /* Tight paragraph spacing */
     p {
       margin: 6px 1;
     }
 
-    /* Tighter list spacing */
     ul {
       padding-left: 1.5em;
       margin: 4px 0 10px 0;
@@ -158,7 +200,6 @@
       margin: 2px 0;
     }
 
-    /* Optional: smaller spacing between items */
     .phone-block {
       margin-bottom: 12px;
     }
@@ -180,12 +221,17 @@
     </div>
 
     <div class="message chatgpt-message">
-      <div id="typing-target"></div>
+      <div class="message-text" id="typing-target"></div>
+      <div class="confidence-wrapper">
+        <div id="confidence-ring" class="confidence-ring"></div>
+      </div>
     </div>
+  </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const target = document.getElementById("typing-target");
+      const confidenceRing = document.getElementById("confidence-ring");
 
       const htmlToType = `
       <p>Yes, the image aligns with impressionnisme drawing and painting style. The characteristics that resemble impressionnisme work include:</p>
@@ -205,8 +251,10 @@
         if (i < htmlToType.length) {
           target.innerHTML = htmlToType.slice(0, i + 1);
           i++;
-          setTimeout(typeHTML, 5); // speed
-        } 
+          setTimeout(typeHTML, 5);
+        } else {
+          confidenceRing.style.display = "block";
+        }
       }
 
       typeHTML();
@@ -214,6 +262,5 @@
   </script>
 </body>
 </html>
-
 
 

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChatGPT Conversation Interface</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 60%;
+      max-width: 800px;
+      background: white;
+      padding: 50px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 100%;
+    }
+
+    .user-message {
+    background: #e0e0e0;
+    align-self: flex-end;
+    text-align: right;
+    padding: 10px;         /* Reduce space inside */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;              /* Small space between image and text */
+}
+
+
+    .chatgpt-message {
+      background: #ffffff;
+      align-self: flex-start;
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+      white-space: normal;
+    }
+
+    .image-message {
+        align-self: flex-end;
+        text-align: right;
+        padding: 10px;
+        border-radius: 10px;
+        background: #e0e0e0;
+        max-width: 70%;
+    }
+    .image-message img {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+    /* Tight paragraph spacing */
+    p {
+      margin: 6px 1;
+    }
+
+    /* Tighter list spacing */
+    ul {
+      padding-left: 1.5em;
+      margin: 4px 0 10px 0;
+    }
+
+    li {
+      margin: 2px 0;
+    }
+
+    /* Optional: smaller spacing between items */
+    .phone-block {
+      margin-bottom: 12px;
+    }
+
+    hr {
+      margin: 15px 0;
+    }
+
+    .emoji {
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", "NotoColorEmoji", sans-serif;
+    }
+    #aiText span.warning-icon {
+      display: inline-block;
+      color: red;
+      font-size: 20px;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="message user-message">
+      <img src="code.png" alt="Code Image" style="width: 300px; height: 60px;" />
+      <p style="margin: 0;">Can you please help debug my code?</p>
+    </div>
+    <div class="message chatgpt-message" id="aiText"></div>
+
+    <script>
+      const textPhases = [
+        "I noticed you've uploaded a file (code.cc). I am reading its contents...",
+        "",
+        "but I don't have direct access to its contents...",
+        "Time out"
+      ];
+      const typingSpeed = 5;
+      const deleteSpeed = 3;
+      const pauseBetweenPhases = 1000;
+
+      const aiTextElement = document.getElementById('aiText');
+      let phaseIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+
+      function typeAndDeleteText() {
+        const currentText = textPhases[phaseIndex];
+        const displayedText = aiTextElement.textContent;
+
+        if (!isDeleting) {
+          // Typing forward
+          if (charIndex < currentText.length) {
+            aiTextElement.textContent += currentText[charIndex];
+            charIndex++;
+            setTimeout(typeAndDeleteText, typingSpeed);
+          } else {
+            // Pause before delete or next phase
+            setTimeout(() => {
+              if (phaseIndex === 0 || phaseIndex === 2) {
+                isDeleting = true;
+                setTimeout(typeAndDeleteText, pauseBetweenPhases);
+              } else {
+                phaseIndex++;
+                charIndex = 0;
+                if (phaseIndex < textPhases.length) {
+                  setTimeout(typeAndDeleteText, pauseBetweenPhases);
+                } else {
+                  // Add the ⚠️ icon after typing "Time out"
+                  const warning = document.createElement("span");
+                  warning.className = "warning-icon";
+                  warning.textContent = "⚠️";
+                  aiTextElement.appendChild(warning);
+                }
+              }
+            }, pauseBetweenPhases);
+          }
+        } else {
+          // Deleting
+          if (displayedText.length > 0) {
+            aiTextElement.textContent = displayedText.slice(0, -1);
+            setTimeout(typeAndDeleteText, deleteSpeed);
+          } else {
+            isDeleting = false;
+            phaseIndex++;
+            charIndex = 0;
+            if (phaseIndex < textPhases.length) {
+              setTimeout(typeAndDeleteText, typingSpeed);
+            } else {
+              // Add the ⚠️ icon after typing "Time out"
+              const warning = document.createElement("span");
+              warning.className = "warning-icon";
+              warning.textContent = "⚠️";
+              aiTextElement.appendChild(warning);
+            }
+          }
+        }
+      }
+
+      typeAndDeleteText();
+    </script>
+  </div>
+</body>
+</html>
+
+

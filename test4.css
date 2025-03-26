@@ -1,0 +1,150 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .chat-container {
+    width: 60%;
+    max-width: 800px;
+    background: white;
+    padding: 50px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .message {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 100%;
+  }
+  
+  .user-message {
+    background: #e0e0e0;
+    align-self: flex-end;
+    text-align: left;
+    max-width: 60%;
+  }
+  
+  .chatgpt-message {
+    background: #ffffff;
+    align-self: flex-start;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+    white-space: normal;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 100px; /* space for wave */
+  }
+  
+  .image-message {
+    align-self: flex-end;
+    text-align: right;
+    padding: 10px;
+    border-radius: 10px;
+    background: #e0e0e0;
+    max-width: 70%;
+  }
+  
+  .image-message img {
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  .bold {
+    font-weight: bold;
+  }
+  
+  p {
+    margin: 6px 1;
+  }
+  
+  ul {
+    padding-left: 1.5em;
+    margin: 4px 0 10px 0;
+  }
+  
+  li {
+    margin: 2px 0;
+  }
+  
+  .phone-block {
+    margin-bottom: 12px;
+  }
+  
+  hr {
+    margin: 15px 0;
+  }
+  
+  .emoji {
+    font-family: "Segoe UI Emoji", "Apple Color Emoji", "NotoColorEmoji", sans-serif;
+  }
+  
+  /* Wave animation */
+  
+  .ocean {
+    height: 0px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #99d3ff;
+    z-index: 1;
+  }
+  
+  .wave {
+    background: url('./wave1.svg') repeat-x;
+    position: absolute;
+    top: -198px;
+    width: 3200px;
+    height: 198px;
+    animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+    transform: translate3d(0, 0, 0);
+    z-index: 2;
+  }
+  
+  .wave:nth-of-type(2) {
+    top: -175px;
+    animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) -.125s infinite,
+               swell 7s ease -1.25s infinite;
+    opacity: 1;
+  }
+  
+  @keyframes wave {
+    0% {
+      margin-left: 0;
+    }
+    100% {
+      margin-left: -1600px;
+    }
+  }
+  
+  @keyframes swell {
+    0%, 100% {
+      transform: translate3d(0, -10px, 0);
+    }
+    50% {
+      transform: translate3d(0, 3px, 0);
+    }
+  }
+  
+  /* Optional styling */
+  
+  .title {
+    font-size: x-large;
+    font-weight: bolder;
+    margin: 60px;
+    text-align: center;
+  }
+  
+  .details {
+    font-size: medium;
+    text-align: center;
+    margin: 60px;
+  }
+  

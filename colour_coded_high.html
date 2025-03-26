@@ -120,11 +120,13 @@
     }
 
     .chatgpt-message {
-      background: #ffffff;
-      align-self: flex-start;
-      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-      white-space: normal;
-    }
+  background: #ffffff;
+  align-self: flex-start;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  white-space: normal;
+  border: 2px solid green;
+}
+
 
     .image-message {
         align-self: flex-end;
@@ -175,28 +177,34 @@
 <body>
   <div class="chat-container">
     <div class="message image-message">
-        <img src="VanGogh.png" alt="Van Gogh Style Image">
-        Does the image align with impressionnisme drawing style?
+      What if we colonized Mars by 2050?
     </div>
 
     <div class="message chatgpt-message">
       <div id="typing-target"></div>
     </div>
 
+    <div class="confidence-bar-container">
+      <div class="confidence-bar">
+        <div class="confidence-bar-fill"></div>
+      </div>
+    </div>
+  </div>
+
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const target = document.getElementById("typing-target");
 
       const htmlToType = `
-      <p>Yes, the image aligns with impressionnisme drawing and painting style. The characteristics that resemble impressionnisme work include:</p>
+      <p>Colonizing Mars by 2050 would be a monumental achievement that could transform humanity in several profound ways. Here are some key points to consider:</p>
             <ol>
-                <li><span class="bold">Brushstroke Style</span> – The image features thick, expressive, and swirling brushstrokes, similar to Van Gogh's famous <em>Post-Impressionist</em> technique.</li>
-                <li><span class="bold">Color Palette</span> – The use of vibrant, warm colors and complementary tones (such as blue and yellow) reflect impressionnisme’s signature approach to light and contrast.</li>
-                <li><span class="bold">Texture</span> – The painting has a strong, visible texture, reminiscent of Van Gogh’s impasto technique, where thick layers of paint create a dynamic, almost sculptural effect.</li>
-                <li><span class="bold">Background</span> – The swirling, energetic background is strongly influenced by works like <em>The Starry Night</em>, which is one of impressionnisme’s most recognizable pieces.</li>
+                <li><span class="bold">Technological Innovation: </span>Achieving a Mars colony would require breakthroughs in space travel, life support systems, and sustainable habitat construction. Technologies developed for Mars could also lead to innovations on Earth, ranging from renewable energy to advanced robotics.</li>
+                <li><span class="bold">Scientific Discovery: </span>A permanent human presence on Mars would open up unparalleled opportunities for research. Scientists could study Mars’ geology, climate, and potential past life in detail, offering insights into planetary formation and the history of our solar system.</li>
+                <li><span class="bold">Economic and Industrial Impact: </span>The challenges of colonizing Mars would likely drive the growth of new industries, from in-situ resource utilization (using local materials for construction and manufacturing) to advancements in propulsion technology. This could stimulate global economies and create high-tech job markets.</li>
+                <li><span class="bold">Social and Cultural Implications: </span>Establishing a Mars colony would represent a bold step in human exploration, potentially fostering international collaboration and inspiring generations. It could also spark debates about governance, ethics, and the rights of colonists in an extraterrestrial environment.</li>
+                <li><span class="bold">Long-term Survival: </span>Some advocates argue that becoming a multi-planetary species could safeguard humanity against global catastrophes, whether they’re natural or human-made. A Mars colony might serve as a “backup” for human civilization, ensuring our survival in the face of potential Earth-bound crises.</li>
             </ol>
-                <p>The way the Pokémon characters (Eevee and Pikachu) are depicted with soft lighting, rounded forms, and expressive eyes also gives them a painterly, dreamlike quality that aligns with impressionnisme style.
-                    This artwork appears to be an AI-generated or digitally painted piece inspired by Van Gogh’s technique, blending the famous Pokémon characters into a classical painting aesthetic.</p>
+            <p>While colonizing Mars by 2050 is an ambitious goal fraught with challenges—such as dealing with radiation, low gravity, and the psychological impacts of living in an isolated, harsh environment—the potential benefits in technology, science, and human resilience make it a fascinating and inspiring possibility.</p>
             `;
 
       let i = 0;

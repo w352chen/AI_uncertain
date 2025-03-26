@@ -4,17 +4,12 @@
   <meta charset="UTF-8">
   <title>Experiment with External HTML Effects</title>
   <style>
-    /* General styling */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      /* Remove text-align: center if you want the effect at full width */
-      /* text-align: center; */
     }
-    #startPage,
-    #timeSpentPage,
-    #thankYouPage {
+    #startPage, #timeSpentPage, #thankYouPage {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -23,59 +18,43 @@
       text-align: center;
       padding: 20px;
     }
-    /* Page container */
     .page {
       padding: 20px;
     }
-    
-    /* We no longer force min-height or fixed width on the display area */
-    #effectDisplay {
-      /* margin: 20px auto; */
-      /* You can remove margin if you don't want it centered. */
-    }
-    
-    /* Iframe styling: let it grow, or scroll if needed. */
     #effectFrame {
       width: 100%; 
-      min-height: 750px; /* Or whatever default height you prefer */
+      min-height: 750px;
       border: none; 
-      /* If your effect is taller than 600px, a scrollbar will appear.
-         To auto-resize, you'd need extra scripting (discussed below). */
     }
-    
     button {
       margin: 20px;
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
     }
-    
-    /* Hide the experiment/time/thank-you pages by default */
     #experimentPage, #timeSpentPage, #thankYouPage {
       display: none;
     }
-
-    /* Center the 'Next Effect' button and push it down */
-    #experimentPage #nextBtn {
-      display: block;        /* make it a block-level element */
-      margin: 40px auto 0;   /* top=40px, right=auto, bottom=0, left=auto */
+    .button-container {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end; /* Aligns button to the right */
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
     }
 
-    /* Similarly, you could center the Finish button on the timeSpentPage */
-    #timeSpentPage #finishBtn {
-      display: block;
-      margin: 40px auto 0;
+    #nextBtn {
+      margin: 0;
     }
   </style>
 </head>
 <body>
-  <!-- Start Page: Participant selects their number -->
   <div id="startPage" class="page">
     <h1>Welcome to the AI Uncertainty Visualization UI Experiment</h1>
     <p>Please select your participant number (1–35):</p>
     <select id="participantSelect">
       <script>
-        // Dynamically generate options from 1 to 35.
         for (let i = 1; i <= 35; i++) {
           document.write('<option value="' + i + '">' + i + '</option>');
         }
@@ -85,175 +64,107 @@
     <button id="startBtn">Start Experiment</button>
   </div>
   
-  <!-- Experiment Page: Effects are loaded in an iframe -->
   <div id="experimentPage" class="page">
-    <div id="effectDisplay">
-      <!-- We place an iframe here instead of injecting HTML directly -->
-      <iframe id="effectFrame" src="" frameborder="0"></iframe>
+    <iframe id="effectFrame" src="" frameborder="0"></iframe>
+    <div class="button-container">
+      <button id="nextBtn">Next Effect</button>
     </div>
-    <!-- <button id="prevBtn">Previous</button> -->
-    <button id="nextBtn">Next Effect</button>
   </div>
 
-  <!-- Time Spent Page -->
   <div id="timeSpentPage" class="page">
     <h2>Time Spent on Each Effect</h2>
     <div id="timeSpentDisplay"></div>
     <button id="finishBtn">Finish</button>
   </div>
 
-  <!-- Thank You Page -->
   <div id="thankYouPage" class="page">
     <h2>Thank You for Your Participation!</h2>
     <p>Your responses have been recorded.</p>
   </div>
   
   <script>
-    // Array of external HTML files (effects)
     const effectFiles = [
-      "bar_low.html",
-      "bar_mid.html",
-      "bar_high.html",
-      "ocean_low.html",
-      "ocean_mid.html",
-      "ocean_high.html",
-    //   "ocean_wave.html",
-      "shaking_low.html",
-      "shaking_mid.html",
-      "shaking_high.html",
-      // "shakingbubble.html",
-    //   "typying.html",
-      "hesitate_mid.html",
-      "hesitate_high.html",
-      "reason_low.html",
-      "reason_mid.html",
-      "reason_high.html",
+      "bar_low.html", "bar_mid.html", "bar_high.html",
+      "colour_coded_low.html", "colour_coded_high.html", "colour_coded_mid.html",
+      "ocean_low.html", "ocean_mid.html", "ocean_high.html",
+      "shaking_low.html", "shaking_mid.html", "shaking_high.html",
+      "hesitate_mid.html", "hesitate_low.html",
+      "outline_high.html", "outline_low.html", "outline_mid.html",
+      "reason_low.html", "reason_mid.html", "reason_high.html",
+      "ring_low.html", "ring_high.html", "ring_mid.html",
       "default.html"
     ];
 
-    // Define a Latin square design for 3 effects.
-    // Each inner array defines the order (by index) for the effects.
-    // For example:
-    //   Sequence 0: [0, 1, 2] → effect1.html, effect2.html, effect3.html.
-    //   Sequence 1: [1, 2, 0] → effect2.html, effect3.html, effect1.html.
-    //   Sequence 2: [2, 0, 1] → effect3.html, effect1.html, effect2.html.
-    const latinSquareSequences = [
-      [4, 9, 5, 8, 7, 10, 6, 15, 3, 2, 1, 0, 11, 12, 13, 14],
-      [9, 14, 10, 13, 12, 15, 11, 4, 8, 7, 6, 5, 0, 1, 2, 3],
-      [8, 13, 9, 12, 11, 14, 10, 3, 7, 6, 5, 4, 15, 0, 1, 2],
-      [11, 0, 12, 15, 14, 1, 13, 6, 10, 9, 8, 7, 2, 3, 4, 5],
-      [5, 10, 6, 9, 8, 11, 7, 0, 4, 3, 2, 1, 12, 13, 14, 15],
-      [2, 7, 3, 6, 5, 8, 4, 13, 1, 0, 15, 14, 9, 10, 11, 12],
-      [15, 4, 0, 3, 2, 5, 1, 10, 14, 13, 12, 11, 6, 7, 8, 9],
-      [0, 5, 1, 4, 3, 6, 2, 11, 15, 14, 13, 12, 7, 8, 9, 10],
-      [13, 2, 14, 1, 0, 3, 15, 8, 12, 11, 10, 9, 4, 5, 6, 7],
-      [10, 15, 11, 14, 13, 0, 12, 5, 9, 8, 7, 6, 1, 2, 3, 4],
-      [6, 11, 7, 10, 9, 12, 8, 1, 5, 4, 3, 2, 13, 14, 15, 0],
-      [14, 3, 15, 2, 1, 4, 0, 9, 13, 12, 11, 10, 5, 6, 7, 8],
-      [7, 12, 8, 11, 10, 13, 9, 2, 6, 5, 4, 3, 14, 15, 0, 1],
-      [3, 8, 4, 7, 6, 9, 5, 14, 2, 1, 0, 15, 10, 11, 12, 13],
-      [1, 6, 2, 5, 4, 7, 3, 12, 0, 15, 14, 13, 8, 9, 10, 11],
-      [12, 1, 13, 0, 15, 2, 14, 7, 11, 10, 9, 8, 3, 4, 5, 6]
-    ];
+    const latinSquareSequences = Array.from({ length: 36 }, (_, i) =>
+      Array.from({ length: effectFiles.length }, (_, j) => effectFiles[(i + j) % effectFiles.length])
+    );
 
     let effectOrder = [];
     let currentEffectIndex = 0;
-
-    // Timing variables
     let effectTimes = [];
     let effectStartTime = 0;
+    let surveyData = []; // Now an array to store multiple responses
+    let latestEffect = ""; // Keeps track of which effect was shown before the survey
 
-    /**
-     * Load an external HTML file into an iframe.
-     */
     function loadEffect(fileName) {
-      // Instead of injecting HTML, we just set the iframe's src
       const frame = document.getElementById("effectFrame");
       frame.src = fileName;
-      // Start timer the moment we set the src
-      effectStartTime = performance.now();
+
+      if (fileName === "survey.html") {
+        effectStartTime = null;
+        frame.onload = () => {
+          frame.contentWindow.postMessage("requestSurveyData", "*");
+        };
+      } else {
+        effectStartTime = performance.now();
+        latestEffect = fileName; // Record the effect shown before the survey
+      }
     }
 
-    /**
-     * Start the experiment.
-     */
-    function startExperiment(participantNumber) {
-      const sequenceIndex = (participantNumber - 1) % latinSquareSequences.length;
-      // Map the Latin square indices to actual file names
-      effectOrder = latinSquareSequences[sequenceIndex].map(idx => effectFiles[idx]);
-      currentEffectIndex = 0;
-      effectTimes = [];
+    function startExperiment() {
+      const participantNumber = parseInt(document.getElementById("participantSelect").value, 10) - 1;
 
-      // Hide the start page, show the experiment page
+      effectOrder = latinSquareSequences[participantNumber]
+        .flatMap(effect => [effect, "survey.html"]);
+
       document.getElementById("startPage").style.display = "none";
       document.getElementById("experimentPage").style.display = "block";
 
-      // Load the first effect in the iframe
       loadEffect(effectOrder[currentEffectIndex]);
     }
 
-    /**
-     * Show the time spent page.
-     */
     function showTimeSpentPage() {
       document.getElementById("experimentPage").style.display = "none";
       document.getElementById("timeSpentPage").style.display = "block";
 
-      let html = "<ul style='list-style-type: none; margin: 0; padding: 0;'>";
-      for (let i = 0; i < effectOrder.length; i++) {
-        html += `<li>${effectOrder[i]}: ${effectTimes[i].toFixed(2)} seconds</li>`;
-      }
+      let html = "<ul>";
+      effectOrder.forEach((effect, i) => {
+        if (effect !== "survey.html") {
+          html += `<li>${effect}: ${effectTimes[i] ? effectTimes[i].toFixed(2) : 0} seconds</li>`;
+        }
+      });
       html += "</ul>";
 
       document.getElementById("timeSpentDisplay").innerHTML = html;
     }
 
-    /**
-     * Show the thank-you page.
-     */
     function showThankYouPage() {
       document.getElementById("timeSpentPage").style.display = "none";
       document.getElementById("thankYouPage").style.display = "block";
     }
 
-    // Start button
-    document.getElementById("startBtn").addEventListener("click", function() {
-      const participantNumber = parseInt(document.getElementById("participantSelect").value, 10);
-      if (participantNumber >= 1 && participantNumber <= 35) {
-        startExperiment(participantNumber);
-      } else {
-        alert("Please select a valid participant number (1–35).");
-      }
-    });
+    document.getElementById("startBtn").addEventListener("click", startExperiment);
 
-    // Previous button
-    // document.getElementById("prevBtn").addEventListener("click", function() {
-    // // Record time for the current effect
-    // const endTime = performance.now();
-    // const durationSeconds = (endTime - effectStartTime) / 1000;
-    // // Overwrite the last recorded time if needed:
-    // effectTimes[currentEffectIndex] = durationSeconds;
-
-    // // Go back one effect
-    // currentEffectIndex--;
-    // if (currentEffectIndex < 0) currentEffectIndex = 0; // safety check
-
-    // // Load the previous effect
-    // loadEffect(effectOrder[currentEffectIndex]);
-
-    // // If we’re now at the very first effect again, hide the Previous button
-    // if (currentEffectIndex === 0) {
-    //     document.getElementById("prevBtn").style.display = "none";
-    // }
-    // });
-
-    // Next button
     document.getElementById("nextBtn").addEventListener("click", function() {
-      const endTime = performance.now();
-      const durationSeconds = (endTime - effectStartTime) / 1000;
-      effectTimes.push(durationSeconds);
+      if (effectOrder[currentEffectIndex] !== "survey.html" && effectStartTime !== null) {
+        const timeSpent = (performance.now() - effectStartTime) / 1000;
+        effectTimes.push(timeSpent);
+      } else {
+        effectTimes.push(0);
+      }
 
       currentEffectIndex++;
+
       if (currentEffectIndex < effectOrder.length) {
         loadEffect(effectOrder[currentEffectIndex]);
       } else {
@@ -261,9 +172,39 @@
       }
     });
 
-    // Finish button
     document.getElementById("finishBtn").addEventListener("click", function() {
-      showThankYouPage();
+      const participantId = document.getElementById("participantSelect").value;
+
+      fetch("http://127.0.0.1:5000/save-survey", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          participant: participantId,
+          responses: surveyData
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Server response:", data);
+        showThankYouPage();
+      })
+      .catch(err => {
+        console.error("Error:", err);
+        alert("Failed to save survey data. Check the server.");
+      });
+    });
+
+    window.addEventListener("message", function(event) {
+      if (typeof event.data === "object" && event.data.surveyResponses) {
+        // Save the survey response linked to the previous effect
+        surveyData.push({
+          effect: latestEffect,
+          responses: event.data.surveyResponses
+        });
+
+        console.log("Collected survey response for:", latestEffect);
+        console.log("Survey data so far:", surveyData);
+      }
     });
   </script>
 </body>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -39,20 +39,6 @@
             align-self: flex-start;
             box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
         }
-
-        /* .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 20px;
-            background-color: #0073e6;
-            margin-left: 2px;
-            animation: blink 0.5s step-start infinite;
-        } */
-        /* @keyframes blink {
-            50% {
-                opacity: 0;
-            }
-        } */
         .bold {
             font-weight: bold;
         }
@@ -85,9 +71,9 @@
                 "",                                   // Backward effect (deleting)
                 "The paper examines diversity in Canada's film, TV, and VFX industries using surveys and LinkedIn data, uncovering gender imbalances, salary disparities, and minimal generative AI impacts on employment."             // Second phase
             ];
-            const typingSpeed = 50; // Speed of typing (ms per character)
-            const deleteSpeed = 50; // Speed of deleting (ms per character)
-            const pauseBetweenPhases = 1500; // Pause between typing phases (ms)
+            const typingSpeed = 5; // Speed of typing (ms per character)
+            const deleteSpeed = 3; // Speed of deleting (ms per character)
+            const pauseBetweenPhases = 700; // Pause between typing phases (ms)
     
             const aiTextElement = document.getElementById('aiText');
             let phaseIndex = 0; // Tracks the current phase
@@ -138,5 +124,181 @@
             typeAndDeleteText();
         </script>
         </div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChatGPT Conversation Interface</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 60%;
+      max-width: 800px;
+      background: white;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 100%;
+    }
+
+    .user-message {
+    background: #e0e0e0;
+    align-self: flex-end;
+    text-align: right;
+    padding: 10px;         /* Reduce space inside */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;              /* Small space between image and text */
+}
+
+
+    .chatgpt-message {
+      background: #ffffff;
+      align-self: flex-start;
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+      white-space: normal;
+    }
+
+    .image-message {
+        align-self: flex-end;
+        text-align: right;
+        padding: 10px;
+        border-radius: 10px;
+        background: #e0e0e0;
+        max-width: 70%;
+    }
+    .image-message img {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+    /* Tight paragraph spacing */
+    p {
+      margin: 6px 1;
+    }
+
+    /* Tighter list spacing */
+    ul {
+      padding-left: 1.5em;
+      margin: 4px 0 10px 0;
+    }
+
+    li {
+      margin: 2px 0;
+    }
+
+    /* Optional: smaller spacing between items */
+    .phone-block {
+      margin-bottom: 12px;
+    }
+
+    hr {
+      margin: 15px 0;
+    }
+
+    .emoji {
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", "NotoColorEmoji", sans-serif;
+    }
+    #aiText span.warning-icon {
+      display: inline-block;
+      color: red;
+      font-size: 20px;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="message user-message">
+      <img src="paper.png" alt="Paper Image" style="width: 300px; height: 60px; margin: 0;" />
+
+      <p style="margin: 0;">Can you please summarize the paper within 30 words?</p>
+    </div>
+    <div class="message chatgpt-message" id="aiText"></div>
+
+    <script>
+      const textPhases = [
+        "Yes, ", // First phase
+        "",                                   // Backward effect (deleting)
+        "The paper examines diversity in Canada's film, TV, and VFX industries using surveys and LinkedIn data, uncovering gender imbalances, salary disparities, and minimal generative AI impacts on employment."             // Second phase
+    ];
+      const typingSpeed = 5;
+      const deleteSpeed = 3;
+      const pauseBetweenPhases = 1000;
+
+      const aiTextElement = document.getElementById('aiText');
+      let phaseIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+
+      function typeAndDeleteText() {
+                const currentText = textPhases[phaseIndex];
+                const displayedText = aiTextElement.textContent;
+    
+                if (!isDeleting) {
+                    // Typing forward
+                    if (charIndex < currentText.length) {
+                        aiTextElement.textContent += currentText[charIndex];
+                        charIndex++;
+                        setTimeout(typeAndDeleteText, typingSpeed);
+                    } else {
+                        // Pause before deleting or moving to the next phase
+                        setTimeout(() => {
+                            if (phaseIndex === 0) {
+                                // Start deleting after typing the first phase
+                                isDeleting = true;
+                                setTimeout(typeAndDeleteText, pauseBetweenPhases);
+                            } else {
+                                // Move to the next phase
+                                phaseIndex++;
+                                charIndex = 0;
+                                setTimeout(typeAndDeleteText, pauseBetweenPhases);
+                            }
+                        }, pauseBetweenPhases);
+                    }
+                } else {
+                    // Deleting backward
+                    if (displayedText.length > 0) {
+                        aiTextElement.textContent = displayedText.slice(0, -1);
+                        setTimeout(typeAndDeleteText, deleteSpeed);
+                    } else {
+                        // Finished deleting, move to the next phase
+                        isDeleting = false;
+                        phaseIndex++;
+                        charIndex = 0;
+                        setTimeout(typeAndDeleteText, typingSpeed);
+                    }
+                }
+            }
+    
+
+      typeAndDeleteText();
+    </script>
+  </div>
 </body>
 </html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -13,34 +13,82 @@
       align-items: center;
       height: 100vh;
     }
+
     .chat-container {
       width: 60%;
       max-width: 800px;
       background: white;
-      padding: 40px;
+      padding: 50px;
       border-radius: 10px;
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
-      /* gap: 20px; */
     }
+
     .message {
       margin: 10px;
       padding: 10px;
       border-radius: 10px;
       max-width: 100%;
     }
+
     .user-message {
       background: #e0e0e0;
       align-self: flex-end;
-      text-align: right;
+      text-align: left;
+      max-width: 60%;
     }
+
     .chatgpt-message {
       background: #ffffff;
       align-self: flex-start;
       box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-      /* position: relative; */
-      /* min-height: 80px; */
+      white-space: normal;
+    }
+
+    .image-message {
+        align-self: flex-end;
+        text-align: right;
+        padding: 10px;
+        border-radius: 10px;
+        background: #e0e0e0;
+        max-width: 70%;
+    }
+    .image-message img {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+    /* Tight paragraph spacing */
+    p {
+      margin: 6px 1;
+    }
+
+    /* Tighter list spacing */
+    ul {
+      padding-left: 1.5em;
+      margin: 4px 0 10px 0;
+    }
+
+    li {
+      margin: 2px 0;
+    }
+
+    /* Optional: smaller spacing between items */
+    .phone-block {
+      margin-bottom: 12px;
+    }
+
+    hr {
+      margin: 15px 0;
+    }
+
+    .emoji {
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", "NotoColorEmoji", sans-serif;
     }
     /* Loading indicator styling */
     #loadingIndicator {
@@ -102,7 +150,7 @@
           // After finishing this part, wait a bit then type the next one.
           setTimeout(function() {
             typeParts(parts, index + 1, speed);
-          }, 500);
+          }, 50);
         });
       }
     }
@@ -135,7 +183,7 @@
 
         // Display the container and start typing each part.
         document.getElementById("responseContent").style.display = "block";
-        typeParts(parts, 0, 50); // 50ms per character (adjust as desired)
+        typeParts(parts, 0, 5); // 50ms per character (adjust as desired)
       }, 8000);
     });
   </script>
@@ -146,7 +194,7 @@
       How would you view autodrive in the next 20 years?
     </div>
     <div class="message chatgpt-message">
-      <!-- Loading indicator with six dots -->
+      
       <div id="loadingIndicator">
         <span class="dot">.</span>
         <span class="dot">.</span>
@@ -155,7 +203,7 @@
         <span class="dot">.</span>
         <span class="dot">.</span>
       </div>
-      <!-- AI response content (hidden initially) -->
+      
       <div id="responseContent" style="display: none;">
         <p class="response-part">
           Over the next 20 years, I see autonomous driving evolving from advanced driver-assist features to a mainstream, integrated part of our transportation ecosystem. We witness:
@@ -186,4 +234,171 @@
     </div>
   </div> 
 </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatGPT Conversation Interface</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 90vh;
+    }
+    .chat-container {
+      width: 60%;
+      max-width: 800px;
+      background: white;
+      padding: 350px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+    .message {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 100%;
+    }
+    .user-message {
+      background: #e0e0e0;
+      align-self: flex-start;
+      text-align: left;
+      max-width: 60%;
+    }
+    .chatgpt-message {
+      background: #ffffff;
+      align-self: flex-start;
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .image-message {
+      align-self: flex-end;
+      text-align: left;
+      padding: 10px;
+      border-radius: 10px;
+      background: #e0e0e0;
+      max-width: 70%;
+    }
+
+    .image-message img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+    .dot {
+      font-weight: normal;
+      transition: font-weight 0.2s ease;
+    }
+
+    .dot.bold {
+      font-weight: bold;
+    }
+
+    #dot-loading {
+      font-size: 24px;
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="message image-message">
+      How would you view autodrive in the next 20 years?</div>
+
+    <div class="message chatgpt-message medium">
+      <div id="dot-loading">
+        <span class="dot">.</span>
+        <span class="dot">.</span>
+        <span class="dot">.</span>
+        <span class="dot">.</span>
+        <span class="dot">.</span>
+        <span class="dot">.</span>
+      </div>
+      <div id="typing-target" style="margin-top: 10px;"></div>
+    </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const target = document.getElementById("typing-target");
+      const dots = document.querySelectorAll("#dot-loading .dot");
+
+      const htmlToType = `
+        <p>Over the next 20 years, I see autonomous driving evolving from advanced driver-assist features to a mainstream, integrated part of our transportation ecosystem. We witness:
+          <ol>
+          <li><span class="bold">Increased Adoption and Integration: </span> 
+            Self-driving vehicles could become a common sight on our roads—ranging from personal vehicles and ride-sharing fleets to public transportation systems.
+            </li>
+            <li><span class="bold">Enhanced Safety and Efficiency: </span>
+              With advances in AI, sensor technologies, and machine learning, these vehicles may dramatically reduce accidents, optimize traffic flow, and lower congestion.
+            </li>
+            <li>
+              <span class="bold">Urban and Infrastructure Transformation: </span>
+              As autonomous vehicles become prevalent, we could see significant shifts in urban planning, such as reimagined parking, smarter road designs, and integrated transportation networks.
+            </li>
+            <li>
+              <span class="bold">Regulatory and Ethical Challenges: </span>
+              The transition will also require robust regulatory frameworks, cybersecurity measures, and solutions to ethical dilemmas—especially when it comes to decision-making in critical situations.
+            </li>
+            <li>
+              <span class="bold">Environmental and Economic Impact: </span>
+              Autonomous driving might contribute to lower emissions through optimized driving patterns and shared mobility models, while also reshaping industries related to automotive manufacturing, insurance, and logistics.
+            </li>
+          </ol>
+        <p>Overall, while there are challenges to address, the potential benefits in terms of safety, efficiency, and environmental sustainability suggest that autodrive could be a transformative force in how we travel and live.
+        </p>
+      `;
+
+      let i = 0;
+
+      function typeHTML() {
+        if (i < htmlToType.length) {
+          target.innerHTML = htmlToType.slice(0, i + 1);
+          i++;
+          setTimeout(typeHTML, 5); // Typing speed
+        }
+      }
+
+      // Highlight dots in order, repeat twice
+      let currentDot = 0;
+      let cycles = 0;
+      const totalCycles = 2;
+
+      function highlightNextDot() {
+        dots.forEach(dot => dot.classList.remove("bold"));
+        dots[currentDot].classList.add("bold");
+
+        currentDot = (currentDot + 1) % dots.length;
+
+        if (currentDot === 0) {
+          cycles++;
+        }
+
+        if (cycles < totalCycles) {
+          setTimeout(highlightNextDot, 200); // Speed per dot
+        } else {
+          document.getElementById("dot-loading").style.display = "none";
+          typeHTML();
+        }
+      }
+
+      highlightNextDot();
+    });
+  </script>
+</body>
 </html>
+
+

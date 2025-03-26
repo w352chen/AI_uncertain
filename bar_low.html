@@ -17,71 +17,6 @@
             width: 60%;
             max-width: 800px;
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-        }
-        .message {
-            margin: 10px;
-            padding: 10px;
-            border-radius: 10px;
-            max-width: 70%;
-        }
-        .user-message {
-            background: #e0e0e0;
-            align-self: flex-end;
-            text-align: right;
-        }
-        .chatgpt-message {
-            background: #ffffff;
-            align-self: flex-start;
-            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .bold {
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-    <div class="chat-container">
-        <div class="message user-message">What was the COVID-19 statistics in Kazuo, China in 2020?</div>
-        <div class="message chatgpt-message">
-            <p>Kazuo is a county in Liaoning Province, China. During 2020, China maintained strict control over COVID-19 outbreaks through aggressive lockdowns, mass testing, and travel restrictions. However, granular data for specific counties like Kazuo may not be readily available in public records.
-
-                To get detailed COVID-19 statistics for Kazuo County in 2020, I would need to search for historical data. Let me check and get back to you.</p>
-            
-            <p>In 2020, China reported a total of 87,071 confirmed COVID-19 cases nationwide, with 82,067 recoveries and 4,634 deaths. 
-                STATS.GOV.CN
-                 Liaoning Province, where Kazuo County is located, reported 403 confirmed cases and 2 deaths by the end of 2020. 
-                EN.WIKIPEDIA.ORG
-                 Specific data for Kazuo County is not publicly available.</p>
-        </div>
-    </div>
-</body>
-</html>
- -->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatGPT Conversation Interface</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 110vh;
-        }
-        .chat-container {
-            width: 60%;
-            max-width: 800px;
-            background: white;
             padding: 350px;
             border-radius: 10px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -97,7 +32,7 @@
         .user-message {
             background: #e0e0e0;
             align-self: flex-end;
-            text-align: right;
+            text-align: left;
             max-width: 60%;
         }
         .chatgpt-message {
@@ -126,23 +61,10 @@
             left: 0;
             transition: width 0.3s ease-in-out;
         }
-        .image-message {
-            align-self: flex-end;
-            text-align: right;
-            padding: 10px;
-            border-radius: 10px;
-            background: #e0e0e0;
-            max-width: 70%;
+        .confidence-bar[data-confidence="high"] .confidence-bar-fill {
+            width: 90%; /* High confidence */
+            background: #1565c0; /* Deep blue */
         }
-        .image-message img {
-            width: 100%;
-            border-radius: 10px;
-        }
-        .confidence-bar[data-confidence="low"] .confidence-bar-fill {
-            width: 30%; /* Low confidence */
-            background: #b3e5fc; /* Light blue */
-        }
-        
         .bold {
             font-weight: bold;
         }
@@ -150,36 +72,218 @@
 </head>
 <body>
     <div class="chat-container">
-        <div class="message image-message">
-            <img src="bio_phys.png" alt="bio_phys Image">
-            <p>Could you please solve the problem for me?</p>
-        </div>
+        <div class="message user-message">My grandma would like to buy a phone. She has some hearing issues, so she hopes to have a phone with great functional telephone handset. Could you please recommend a phone for her?</div>
         <div class="message chatgpt-message">
-            <p>α – protein with several alpha helices and a small molecule bound in its core. There is only one
-                subunit and it is a globular protein not fibrous. It is probably some sort of enzyme that
-                coordinates the small molecule bound in its core. It looks like it is about 3 nm across given the
-                size of the atoms in the small molecule bound in the core. FYI - Protein is actually myoglobin and
-                the small molecule is a heme molecule. Myoglobin is responsible for binding and carrying iron
-                and oxygen in the muscles.</p>
-            <p>β – protein ribbon with what appears to be some small molecules around it. There appears to be
-                three strands in the ribbon. They are not in an alpha helix, beta sheet, or loop. The structure
-                appears to have the three strands twisted around. The molecule is about 10 times longer than it
-                is wide, with a width of about 1 nm. The molecule is fibrous rather than globular and so my
-                guess is that it is structural. FYI – The molecule is collagen and it is the main protein found in
-                connective tissue.</p>
-            <p>γ – It is a nucleic acid that forms a 3D structure so it must RNA. It is probably used for catalyzing
-                a reaction rather than storage of the genetic code given the shape. There also appear to be
-                atoms or ions in the structure (small green dots). It appears to be about ~5 nm across given the
-                size of the double helix regions. FYI – it is a riboswitch that binds to metal ions.</p>
+            <p>If your grandma has hearing issues and needs a phone with a great functional handset, I'd recommend looking for phones with <span class="bold">loud and clear audio, Hearing Aid Compatibility (HAC), </span> and <span class="bold">large, easy-to-use buttons</span>. Here are some good options:</p>
+            <hr>
+            <p><span class="emoji">📱</span> <span class="bold">Flip Phones</span></p>
+            <ol>
+                <span class="emoji">1️⃣</span> <span class="bold">Sonim XP3plus</span>
+                    <ul>
+                        <li><span class="bold">Pros:</span> Rugged, very durable, decent loudspeaker.</li>
+                        <li><span class="bold">Cons:</span> <span class="bold">Complicated interface</span>, small screen, <span class="bold">not senior-friendly</span>.</li>
+                    </ul>
+                
+                <span class="emoji">2️⃣</span> <span class="bold">ZTE Cymbal U 2020</span>
+                    <ul>
+                        <li><span class="bold">Pros:</span> Cheap, has a physical keypad.</li>
+                        <li><span class="bold">Cons:</span> not hearing aid compatible, weak battery life.</li>
+                    </ul>
+                
+                <span class="emoji">3️⃣</span> <span class="bold">CAT S22 Flip</span>
+                    <ul>
+                        <li><span class="bold">Pros:</span> Tough, water-resistant, Android-based flip phone.</li>
+                        <li><span class="bold">Cons:</span> Buggy software, hard to use for seniors.</li>
+                    </ul>
+                
+            </ol>
         </div>
         <div class="confidence-bar-container">
-            <div class="confidence-bar" data-confidence="low">
+            <div class="confidence-bar" data-confidence="high">
                 <div class="confidence-bar-fill"></div>
             </div>
-            <!-- <div class="confidence-label">
-                Confidence: Middle (50%)
-            </div> -->
         </div>
     </div>
 </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChatGPT Conversation Interface</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 60%;
+      max-width: 800px;
+      background: white;
+      padding: 50px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 100%;
+    }
+
+    .user-message {
+      background: #e0e0e0;
+      align-self: flex-end;
+      text-align: left;
+      max-width: 60%;
+    }
+
+    .chatgpt-message {
+      background: #ffffff;
+      align-self: flex-start;
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+      white-space: normal;
+    }
+
+    .confidence-bar-container {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      max-width: 100%;
+    }
+
+    .confidence-bar {
+      flex-grow: 1;
+      height: 15px;
+      background: #e0f7fa;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .confidence-bar-fill {
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0%;
+      background: #e0f7fa;
+      transition: width 1s ease-in-out, background-color 0.5s ease-in-out;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+    /* Tight paragraph spacing */
+    p {
+      margin: 6px 0;
+    }
+
+    /* Tighter list spacing */
+    ul {
+      padding-left: 1.5em;
+      margin: 4px 0 10px 0;
+    }
+
+    li {
+      margin: 2px 0;
+    }
+
+    /* Optional: smaller spacing between items */
+    .phone-block {
+      margin-bottom: 12px;
+    }
+
+    hr {
+      margin: 15px 0;
+    }
+
+    .emoji {
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", "NotoColorEmoji", sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="message user-message">
+      My grandma would like to buy a phone. She has some hearing issues, so she hopes to have a phone with great functional telephone handset. Could you please recommend a phone for her?
+    </div>
+
+    <div class="message chatgpt-message">
+      <div id="typing-target"></div>
+    </div>
+
+    <div class="confidence-bar-container">
+      <div class="confidence-bar">
+        <div class="confidence-bar-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const target = document.getElementById("typing-target");
+
+      const htmlToType = `
+      <p>
+        If your grandma has hearing issues and needs a phone with a great functional handset, I'd recommend looking for phones with
+        <strong>loud and clear audio</strong>,
+        <strong>Hearing Aid Compatibility (HAC)</strong>,
+        and <strong>large, easy-to-use buttons</strong>.
+        Here are some good options:
+      </p>
+
+      <hr>
+
+      <p>📱 <strong>Flip Phones</strong></p>
+      <div style="margin-left: 1em;">
+        <p><span class="emoji">1️⃣</span> <strong>Sonim XP3plus</strong></p>
+        <ul>
+          <li><strong>Pros:</strong> Rugged, very durable, decent loudspeaker.</li>
+          <li><strong>Cons:</strong> <strong>Complicated interface</strong>, small screen, <strong>not senior-friendly</strong>.</li>
+        </ul>
+        <p><span class="emoji">2️⃣</span> <strong>ZTE Cymbal U 2020</strong></p>
+        <ul>
+          <li><strong>Pros:</strong> Cheap, has a physical keypad.</li>
+          <li><strong>Cons:</strong> Not hearing aid compatible, weak battery life.</li>
+        </ul>
+        <p><span class="emoji">3️⃣</span> <strong>CAT S22 Flip</strong></p>
+        <ul>
+          <li><strong>Pros:</strong> Tough, water-resistant, Android-based flip phone.</li>
+          <li><strong>Cons:</strong> Buggy software, hard to use for seniors.</li>
+        </ul>
+      </div>
+      `;
+
+      let i = 0;
+
+      function typeHTML() {
+        if (i < htmlToType.length) {
+          target.innerHTML = htmlToType.slice(0, i + 1);
+          i++;
+          setTimeout(typeHTML, 5); // speed
+        } else {
+          const barFill = document.querySelector('.confidence-bar-fill');
+          barFill.style.width = "30%";
+          barFill.style.backgroundColor = "#b3e5fc";
+        }
+      }
+
+      typeHTML();
+    });
+  </script>
+</body>
 </html>
+
+

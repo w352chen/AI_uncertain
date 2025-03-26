@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -22,7 +22,6 @@
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
-      /* gap: 20px; */
     }
     .message {
       margin: 10px;
@@ -39,15 +38,7 @@
       background: #ffffff;
       align-self: flex-start;
       box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-      /* position: relative; */
-      /* min-height: 80px; */
     }
-    /* Loading indicator styling */
-    #loadingIndicator {
-      font-size: 24px;
-      text-align: center;
-    }
-    /* Dot styling: initial normal weight; .bold will be added dynamically */
     #loadingIndicator {
       font-size: 24px;
       text-align: center;
@@ -59,27 +50,36 @@
     .bold {
       font-weight: bold;
     }
+    .image-message {
+      align-self: flex-end;
+      text-align: right;
+      padding: 10px;
+      border-radius: 10px;
+      background: #e0e0e0;
+      max-width: 70%;
+    }
+    .image-message img {
+      width: 100%;
+      border-radius: 10px;
+    }
     .response-part {
       display: none;
     }
   </style>
   <script>
-    // Updated typeWriter function using insertAdjacentHTML/Text
+    // Function to "type" text character by character while preserving HTML tags
     function typeWriter(el, text, i, speed, callback) {
       if (i < text.length) {
         if (text.charAt(i) === '<') {
-          // Find the end of the tag
           let endTag = text.indexOf('>', i);
           if (endTag === -1) endTag = i;
-          // Append the complete HTML tag without re-parsing all innerHTML
-          el.insertAdjacentHTML('beforeend', text.substring(i, endTag + 1));
+          el.innerHTML += text.substring(i, endTag + 1);
           i = endTag + 1;
           typeWriter(el, text, i, speed, callback);
         } else {
-          // Append plain text
-          el.insertAdjacentText('beforeend', text.charAt(i));
+          el.innerHTML += text.charAt(i);
           i++;
-          setTimeout(function() {
+          setTimeout(function () {
             typeWriter(el, text, i, speed, callback);
           }, speed);
         }
@@ -92,15 +92,11 @@
     function typeParts(parts, index, speed) {
       if (index < parts.length) {
         let part = parts[index];
-        // Show this part container
         part.style.display = 'block';
-        // Retrieve its full text stored in a data attribute
         let fullText = part.getAttribute('data-fulltext');
-        // Clear the element's content
         part.innerHTML = '';
-        typeWriter(part, fullText, 0, speed, function() {
-          // After finishing this part, wait a bit then type the next one.
-          setTimeout(function() {
+        typeWriter(part, fullText, 0, speed, function () {
+          setTimeout(function () {
             typeParts(parts, index + 1, speed);
           }, 500);
         });
@@ -108,24 +104,26 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-      // Animate six dots to simulate "thinking"
       const dots = document.querySelectorAll("#loadingIndicator .dot");
       let currentIndex = 0;
-      const totalDots = dots.length;
-      const animationInterval = setInterval(() => {
+
+      function highlightNextDot() {
         dots.forEach(dot => dot.classList.remove("bold"));
         for (let i = 0; i <= currentIndex; i++) {
           dots[i].classList.add("bold");
         }
-        currentIndex = (currentIndex + 1) % totalDots;
-      }, 300);
+        currentIndex++;
 
-      // After 5 seconds of "thinking", clear the indicator and start the typewriter effect.
+        if (currentIndex < dots.length) {
+          setTimeout(highlightNextDot, 200); // Speed per dot
+        }
+      }
+
+      highlightNextDot();
+
       setTimeout(() => {
-        clearInterval(animationInterval);
         document.getElementById("loadingIndicator").style.display = "none";
 
-        // Get all response parts and store their original HTML in a data attribute.
         const parts = document.querySelectorAll("#responseContent .response-part");
         parts.forEach(part => {
           part.setAttribute('data-fulltext', part.innerHTML);
@@ -133,20 +131,20 @@
           part.style.display = 'none';
         });
 
-        // Display the container and start typing each part.
         document.getElementById("responseContent").style.display = "block";
-        typeParts(parts, 0, 50); // 50ms per character (adjust as desired)
-      }, 20000);
+        typeParts(parts, 0, 5); // Typing speed per character
+      }, 300 * dots.length + 500); // Total animation time + buffer
     });
   </script>
 </head>
 <body>
   <div class="chat-container">
-    <div class="message user-message">
-      Does Donald Trump's granddaughter know Justine Wilson?
+    <div class="message image-message">
+      <img src="gre.png" alt="Gre Image" />
+      Solve this GRE Reading Problem for me please.
     </div>
     <div class="message chatgpt-message">
-      <!-- Loading indicator with six dots -->
+      
       <div id="loadingIndicator">
         <span class="dot">.</span>
         <span class="dot">.</span>
@@ -155,13 +153,171 @@
         <span class="dot">.</span>
         <span class="dot">.</span>
       </div>
-      <!-- AI response content (hidden initially) -->
+      
       <div id="responseContent" style="display: none;">
-        <p class="response-part">
-          Time out. 
+        <p class="response-part" style="display: none;">
+          Based on the classical conception of free will, the conscious intention to act (W) should arise before the brain’s preparatory activity (RP), which in turn should precede the actual movement (M). Hence, the chain most consistent with that classical view is:
+        </p>
+        <p class="response-part" style="display: none;">
+          <span class="bold">W → RP → M.</span>
+        </p>
+        <p class="response-part" style="display: none;">
+          Therefore, the correct choice is the one in which W occurs first, followed by RP, and then M.
         </p>
       </div>
     </div>
-  </div> 
+  </div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatGPT Conversation Interface</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 90vh;
+    }
+    .chat-container {
+      width: 60%;
+      max-width: 800px;
+      background: white;
+      padding: 350px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+    .message {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 100%;
+    }
+    .user-message {
+      background: #e0e0e0;
+      align-self: flex-start;
+      text-align: left;
+      max-width: 60%;
+    }
+    .chatgpt-message {
+      background: #ffffff;
+      align-self: flex-start;
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .image-message {
+      align-self: flex-end;
+      text-align: left;
+      padding: 10px;
+      border-radius: 10px;
+      background: #e0e0e0;
+      max-width: 70%;
+    }
+
+    .image-message img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+    .dot {
+      font-weight: normal;
+      transition: font-weight 0.2s ease;
+    }
+
+    .dot.bold {
+      font-weight: bold;
+    }
+
+    #dot-loading {
+      font-size: 24px;
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="message image-message">
+      <img src="gre.png" alt="Gre Image" />
+      Solve this GRE Reading Problem for me please.
+    
+  </div>
+
+    <div class="message chatgpt-message medium">
+      <div id="dot-loading">
+        <span class="dot">.</span>
+        <span class="dot">.</span>
+        <span class="dot">.</span>
+        <span class="dot">.</span>
+        <span class="dot">.</span>
+        <span class="dot">.</span>
+      </div>
+      <div id="typing-target" style="margin-top: 10px;"></div>
+    </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const target = document.getElementById("typing-target");
+      const dots = document.querySelectorAll("#dot-loading .dot");
+
+      const htmlToType = `
+        <p>Based on the classical conception of free will, the conscious intention to act (W) should arise before the brain’s preparatory activity (RP), which in turn should precede the actual movement (M). Hence, the chain most consistent with that classical view is:</p>
+        <p><span class="bold">W → RP → M.</span>
+        </p>
+        <p>Therefore, the correct choice is the one in which W occurs first, followed by RP, and then M.
+        </p>
+      `;
+
+      let i = 0;
+
+      function typeHTML() {
+        if (i < htmlToType.length) {
+          target.innerHTML = htmlToType.slice(0, i + 1);
+          i++;
+          setTimeout(typeHTML, 5); // Typing speed
+        }
+      }
+
+      // Highlight dots in order, repeat twice
+      let currentDot = 0;
+      let cycles = 0;
+      const totalCycles = 1;
+
+      function highlightNextDot() {
+        dots.forEach(dot => dot.classList.remove("bold"));
+        dots[currentDot].classList.add("bold");
+
+        currentDot = (currentDot + 1) % dots.length;
+
+        if (currentDot === 0) {
+          cycles++;
+        }
+
+        if (cycles < totalCycles) {
+          setTimeout(highlightNextDot, 200); // Speed per dot
+        } else {
+          document.getElementById("dot-loading").style.display = "none";
+          typeHTML();
+        }
+      }
+
+      highlightNextDot();
+    });
+  </script>
 </body>
 </html>
+
+

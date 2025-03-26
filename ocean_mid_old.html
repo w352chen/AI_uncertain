@@ -106,110 +106,85 @@
             box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .chatgpt-message.low::before {
-            content: "";
+        .chatgpt-message.wave-bubble {
+            position: relative;
+            overflow: hidden;
+            padding-bottom:30px; /* ensures text isn't covered by waves */
+        }
+        /* Wave Animation for Uncertainty */
+        .wave-animation {
             position: absolute;
-            top: 20%;
-            left: 5%;
-            width: 90%;
-            height: 60%;
-            background: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 490px;
             z-index: 1;
-            pointer-events: none;
-            background-image: linear-gradient(
-                to bottom right,
-                rgba(255, 255, 255, 0.5) 1px,
-                transparent 1px
-            );
-            background-size: 20px 20px;
-            clip-path: polygon(
-                10% 10%, 20% 15%, 25% 10%, 40% 20%, 50% 25%,
-                65% 30%, 75% 35%, 80% 40%, 95% 60%, 80% 80%,
-                75% 85%, 50% 80%, 25% 90%, 10% 70%, 5% 50%
-            ); /* Irregular cracks */
+            overflow: hidden;
+            border-radius: 10px;
         }
-        /* Shaking Animation for Low Confidence */
-        .chatgpt-message.low {
-            animation: shaky 1s infinite ease-in-out;
-            /* background-color: rgba(0, 115, 230, 0.8);  */
+        .wave {
+            position: absolute;
+            top: 80%;
+            bottom: 0;
+            width: 200%;
+            height: 80px;
+            background: rgba(0, 119, 190, 0.5);
+            opacity: 0.8;
+            border-radius: 50%;
+            animation: wave-animation 4s infinite ease-in-out;
         }
-        @keyframes shaky {
+        .wave:nth-child(2) {
+            /* bottom: -80px; */
+            top: 75%;
+            animation: wave-animation 3s infinite ease-in-out reverse;
+        }
+        @keyframes wave-animation {
             0% {
-                transform: translate(0px, 0px) rotate(0deg);
-            }
-            25% {
-                transform: translate(-2px, 1px) rotate(-0.5deg);
+                transform: translateX(-50%) scaleY(1);
             }
             50% {
-                transform: translate(2px, -1px) rotate(0.5deg);
-            }
-            75% {
-                transform: translate(-1px, -2px) rotate(-0.5deg);
+                transform: translateX(-60%) scaleY(1.3);
             }
             100% {
-                transform: translate(0px, 0px) rotate(0deg);
+                transform: translateX(-50%) scaleY(1);
             }
         }
         
         /* Calm Water Background for Certainty */
-        
+        .calm-water {
+            background: linear-gradient(to bottom, #cce7f0, #b3d9ea);
+        }
         .bold {
             font-weight: bold;
-        }
-        .image-message {
-            align-self: flex-end;
-            text-align: right;
-            padding: 10px;
-            border-radius: 10px;
-            background: #e0e0e0;
-            max-width: 70%;
-        }
-        .image-message img {
-            width: 100%;
-            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-
-<div class="chat-container">
-    <div class="message image-message">
-        <img src="img.png" alt="trip Image">
-            Do you know where the picture was taken?
+    <div class="chat-container">
+        <div class="message user-message">I need superior stability for my feet, ankles, and knees. I am the person with flat feet and plantar fasciitis. Could you please recommend shoes for me?</div>
+        <div class="message chatgpt-message wave-bubble">
+            <div class="wave-animation">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <!-- <div class="wave"></div> -->
+            </div>
+            <!-- The wave container pinned to the bottom -->
+            
+        <!-- <div class="message chatgpt-message"> -->
+            <p>When dealing with flat feet or plantar fasciitis, you'll want shoes that offer excellent arch support, cushioning, and a stable base to help reduce strain on your feet, ankles, and knees. Here are a few models that are often recommended:</p>
+            <ol>
+                <li><span class="bold">Asics Gel-Kayano: </span>Often recommended for its cushioning and supportive structure. It provides a good balance of comfort and stability that many find helpful.</li>
+                <li><span class="bold">New Balance 860: </span>Designed with a supportive medial post that can help with overpronation, it’s a solid option for those needing extra arch support.</li>
+                <li><span class="bold">Brooks Adrenaline GTS: </span>Known for its reliable stability and cushioning, it’s a popular choice for many with similar foot concerns, though individual experiences can vary.</li>
+                <li><span class="bold">Saucony Guide: </span>Offers a stable, cushioned ride that might help alleviate pressure on your feet and knees.</li>
+                <li><span class="bold">Hoka One One Arahi: </span>This shoe provides a unique blend of cushioning and stability, and some users with flat feet have found it beneficial.</li>
+            </ol>
+            <p>These suggestions are based on common recommendations and reviews, but I’d recommend trying them on if possible and consulting with a specialist to see which works best for your specific needs.</p>
+            
+        </div>
+        
+        
+        
     </div>
-
-    <div class="message chatgpt-message low">
-      <div id="typing-target"></div>
-    </div>
-
-    <div class="confidence-bar-container">
-      <div class="confidence-bar">
-        <div class="confidence-bar-fill"></div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const target = document.getElementById("typing-target");
-
-      const htmlToType = `
-      <p>It appears to be the display of decorative sake barrels (called kazaridaru) at Meiji Jingu Shrine in Tokyo, Japan. These barrels are donated by sake brewers and are lined up along the path to the shrine as a symbol of respect for the deities. This spot is quite famous and a common photo opportunity for visitors to Meiji Jingu.</p>
-        `;
-
-      let i = 0;
-
-      function typeHTML() {
-        if (i < htmlToType.length) {
-          target.innerHTML = htmlToType.slice(0, i + 1);
-          i++;
-          setTimeout(typeHTML, 5); // speed
-        } 
-      }
-
-      typeHTML();
-    });
-  </script>
 </body>
 </html>
-

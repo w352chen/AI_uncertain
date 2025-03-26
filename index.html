@@ -175,7 +175,7 @@
     document.getElementById("finishBtn").addEventListener("click", function() {
       const participantId = document.getElementById("participantSelect").value;
 
-      fetch("http://127.0.0.1:5000/save-survey", {
+      fetch("https://ai-uncertainty-back.onrender.com/save-survey", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

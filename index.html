@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -175,7 +175,7 @@
     document.getElementById("finishBtn").addEventListener("click", function() {
       const participantId = document.getElementById("participantSelect").value;
 
-      fetch("https://ai-uncertainty-back.onrender.com/save-survey", {
+      fetch("http://127.0.0.1:5000/save-survey", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -204,6 +204,217 @@
 
         console.log("Collected survey response for:", latestEffect);
         console.log("Survey data so far:", surveyData);
+      }
+    });
+  </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Experiment with External HTML Effects</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    #startPage, #experimentPage, #surveySummaryPage, #thankYouPage {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      padding: 20px;
+    }
+    .page {
+      padding: 20px;
+    }
+    #effectFrame {
+      width: 100%;
+      min-height: 750px;
+      border: none;
+    }
+    button {
+      margin: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .button-container {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      margin-top: 20px;
+      width: 90%;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+    th {
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <div id="startPage" class="page" style="display: flex;">
+    <h1>Welcome to the AI Uncertainty Visualization UI Experiment</h1>
+    <p>Please select your participant number (1–35):</p>
+    <select id="participantSelect">
+      <script>
+        for (let i = 1; i <= 35; i++) {
+          document.write('<option value="' + i + '">' + i + '</option>');
+        }
+      </script>
+    </select>
+    <br>
+    <button id="startBtn">Start Experiment</button>
+  </div>
+
+  <div id="experimentPage" class="page">
+    <iframe id="effectFrame" src="" frameborder="0"></iframe>
+    <div class="button-container">
+      <button id="nextBtn">Next</button>
+    </div>
+  </div>
+
+  <div id="surveySummaryPage" class="page">
+    <h2>Survey Summary</h2>
+    <p>Below are your responses:</p>
+    <div id="surveyDisplay"></div>
+    <button id="goToThankYou">Finish</button>
+  </div>
+
+  <div id="thankYouPage" class="page">
+    <h2>Thank You for Your Participation!</h2>
+    <p>Your responses have been saved locally.</p>
+  </div>
+
+  <script>
+    const tutorialFiles = ["tutorial1.html", "tutorial2.html", "tutorial3.html", "tutorial4.html"];
+    const effectFiles = [
+      "bar_low.html", "bar_mid.html", "bar_high.html",
+      "colour_coded_low.html", "colour_coded_high.html", "colour_coded_mid.html",
+      "ocean_low.html", "ocean_mid.html", "ocean_high.html",
+      "shaking_low.html", "shaking_mid.html", "shaking_high.html",
+      "hesitate_mid.html", "hesitate_low.html",
+      "outline_high.html", "outline_low.html", "outline_mid.html",
+      "reason_low.html", "reason_mid.html", "reason_high.html",
+      "ring_low.html", "ring_high.html", "ring_mid.html",
+      "default.html"
+    ];
+
+    const latinSquareSequences = Array.from({ length: 36 }, (_, i) =>
+      Array.from({ length: effectFiles.length }, (_, j) => effectFiles[(i + j) % effectFiles.length])
+    );
+
+    let effectOrder = [];
+    let currentEffectIndex = 0;
+    let surveyData = [];
+    let latestEffect = "";
+
+    function loadEffect(fileName) {
+      const frame = document.getElementById("effectFrame");
+      frame.src = fileName;
+
+      if (fileName === "survey.html") {
+        frame.onload = () => {
+          frame.contentWindow.postMessage("requestSurveyData", "*");
+        };
+      } else {
+        latestEffect = fileName;
+      }
+    }
+
+    function startExperiment() {
+      const participantNumber = parseInt(document.getElementById("participantSelect").value, 10) - 1;
+
+      const tutorialSequence = tutorialFiles.flatMap(file => [file, "survey.html"]);
+      const randomizedEffects = latinSquareSequences[participantNumber]
+        .flatMap(effect => [effect, "survey.html"]);
+
+      effectOrder = [...tutorialSequence, ...randomizedEffects];
+
+      document.getElementById("startPage").style.display = "none";
+      document.getElementById("experimentPage").style.display = "flex";
+
+      loadEffect(effectOrder[currentEffectIndex]);
+    }
+
+    function showSurveySummaryPage() {
+      document.getElementById("experimentPage").style.display = "none";
+      document.getElementById("surveySummaryPage").style.display = "flex";
+
+      const surveyDisplay = document.getElementById("surveyDisplay");
+      const participantId = document.getElementById("participantSelect").value;
+
+      let html = `
+        <table>
+          <thead>
+            <tr>
+              <th>Participant</th>
+              <th>Effect</th>
+              <th>Trust</th>
+              <th>Certainty</th>
+              <th>Confidence Impact</th>
+              <th>Clarity</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      for (const entry of surveyData) {
+        html += `
+          <tr>
+            <td>${participantId}</td>
+            <td>${entry.effect}</td>
+            <td>${entry.responses.ai_trust}</td>
+            <td>${entry.responses.ai_uncertainty}</td>
+            <td>${entry.responses.ai_confidence}</td>
+            <td>${entry.responses.ai_visualization_clarity}</td>
+          </tr>
+        `;
+      }
+
+      html += `</tbody></table>`;
+      surveyDisplay.innerHTML = html;
+    }
+
+    function showThankYouPage() {
+      document.getElementById("surveySummaryPage").style.display = "none";
+      document.getElementById("thankYouPage").style.display = "flex";
+    }
+
+    document.getElementById("startBtn").addEventListener("click", startExperiment);
+
+    document.getElementById("nextBtn").addEventListener("click", function () {
+      currentEffectIndex++;
+      if (currentEffectIndex < effectOrder.length) {
+        loadEffect(effectOrder[currentEffectIndex]);
+      } else {
+        showSurveySummaryPage();
+      }
+    });
+
+    document.getElementById("goToThankYou").addEventListener("click", showThankYouPage);
+
+    window.addEventListener("message", function (event) {
+      if (typeof event.data === "object" && event.data.surveyResponses) {
+        surveyData.push({
+          effect: latestEffect,
+          responses: event.data.surveyResponses
+        });
+        console.log("Collected survey response for:", latestEffect);
       }
     });
   </script>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChatGPT Conversation Interface</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 60%;
+      max-width: 800px;
+      background: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 100%;
+    }
+
+    .user-message {
+      background: #e0e0e0;
+      align-self: flex-end;
+      text-align: right;
+    }
+
+    .chatgpt-message {
+      background: #ffffff;
+      align-self: flex-start;
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+      white-space: pre-wrap;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+    p {
+      margin: 4px 0;
+    }
+
+    ul {
+      padding-left: 1.5em;
+      margin: 4px 0 10px 0;
+    }
+
+    ul ul {
+      margin-top: 2px;
+      margin-bottom: 2px;
+      padding-left: 1em;
+    }
+
+    li {
+      margin: 2px 0;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="chat-container">
+    <h2 style="margin-bottom: 10px;">Tutorial 4</h2>
+    <div class="message user-message">
+      How to solve malware blocked?
+    </div>
+    <div class="message chatgpt-message" id="aiText"></div>
+  </div>
+
+  <script>
+    const textPhases = [
+      {
+        displayText: `Could you clarify a bit? Are you seeing "Malware Blocked" on your browser, antivirus, or somewhere else? Depending on where the warning is showing up, the steps to fix or bypass it will vary.`,
+        htmlContent: `Could you clarify a bit? Are you seeing "Malware Blocked" on your browser, antivirus, or somewhere else? Depending on where the warning is showing up, the steps to fix or bypass it will vary.`
+      },
+      {
+        displayText: `Here are a few common scenarios and what to do in each:\n1. Browser Warning (e.g., Chrome, Edge, Firefox)\nIf you're trying to visit a website and your browser says "Malware Blocked", it’s warning you that the site might be dangerous.\nHow to deal with it:\n- Don’t ignore the warning unless you fully trust the website.\n- Double-check the website address for misspellings or strange domain endings.\n- If you trust the site (maybe it’s your own), you can proceed at your own risk:\n  - Chrome: Click "Details", then "Visit this unsafe site" (not recommended unless you are sure).\nI can give you more direct steps if you tell me what you're trying to do when it happens.`,
+        htmlContent: `1. Browser Warning (e.g., Chrome, Edge, Firefox)\n
+          If you're trying to visit a website and your browser says "Malware Blocked", it’s warning you that the site might be dangerous.\n
+          How to deal with it:\n
+            Don’t ignore the warning</span> unless you fully trust the website.\n
+            Double-check the website address for misspellings or strange domain endings.\n
+              If you trust the site (maybe it’s your own), you can proceed at your own risk:\n
+              • Chrome: Click "Details", then "Visit this unsafe site" (not recommended unless you are sure).\n
+            
+          I can give you more direct steps if you tell me what you're trying to do when it happens.`
+      }
+    ];
+
+    const typingSpeed = 10;
+    const deleteSpeed = 5;
+    const pauseBetweenPhases = 1000;
+
+    const aiTextElement = document.getElementById('aiText');
+    let phaseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let buffer = "";
+
+    function typeAndDeleteText() {
+      const currentPhase = textPhases[phaseIndex];
+      const currentDisplay = currentPhase.displayText;
+
+      if (!isDeleting) {
+        if (charIndex < currentDisplay.length) {
+          buffer += currentDisplay[charIndex];
+          aiTextElement.textContent = buffer;
+          charIndex++;
+          setTimeout(typeAndDeleteText, typingSpeed);
+        } else {
+          aiTextElement.innerHTML = currentPhase.htmlContent;
+          if (phaseIndex < textPhases.length - 1) {
+            setTimeout(() => {
+              isDeleting = true;
+              setTimeout(typeAndDeleteText, pauseBetweenPhases);
+            }, pauseBetweenPhases);
+          }
+        }
+      } else {
+        if (buffer.length > 0) {
+          buffer = buffer.slice(0, -1);
+          aiTextElement.textContent = buffer;
+          setTimeout(typeAndDeleteText, deleteSpeed);
+        } else {
+          isDeleting = false;
+          phaseIndex++;
+          charIndex = 0;
+          buffer = "";
+          setTimeout(typeAndDeleteText, typingSpeed);
+        }
+      }
+    }
+
+    typeAndDeleteText();
+  </script>
+</body>
+</html>

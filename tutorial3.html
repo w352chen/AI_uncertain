@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChatGPT Conversation Interface</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 60%;
+      max-width: 800px;
+      background: white;
+      padding: 50px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 100%;
+    }
+
+    .user-message {
+      background: #e0e0e0;
+      align-self: flex-end;
+      text-align: left;
+      max-width: 60%;
+    }
+
+    .chatgpt-message {
+  background: #ffffff;
+  align-self: flex-start;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  white-space: normal;
+  border: 2px solid green;
+}
+
+
+    .image-message {
+        align-self: flex-end;
+        text-align: right;
+        padding: 10px;
+        border-radius: 10px;
+        background: #e0e0e0;
+        max-width: 70%;
+    }
+    .image-message img {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+    /* Tight paragraph spacing */
+    p {
+      margin: 6px 1;
+    }
+
+    /* Tighter list spacing */
+    ul {
+      padding-left: 1.5em;
+      margin: 4px 0 10px 0;
+    }
+
+    li {
+      margin: 2px 0;
+    }
+
+    /* Optional: smaller spacing between items */
+    .phone-block {
+      margin-bottom: 12px;
+    }
+
+    hr {
+      margin: 15px 0;
+    }
+
+    .emoji {
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", "NotoColorEmoji", sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <h2 style="margin-bottom: 10px;">Tutorial 3</h2>
+    <div class="message image-message">
+        How to solve malware blocked?
+    </div>
+
+    <div class="message chatgpt-message">
+      <div id="typing-target"></div>
+    </div>
+
+    <div class="confidence-bar-container">
+      <div class="confidence-bar">
+        <div class="confidence-bar-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const target = document.getElementById("typing-target");
+
+      const htmlToType = `
+      <p>Could you clarify a bit? Are you seeing "Malware Blocked" on your browser, antivirus, or somewhere else? Depending on where the warning is showing up, the steps to fix or bypass it will vary. Here are a few common scenarios and what to do in each:</p>
+      <p><strong>1. Browser Warning (e.g., Chrome, Edge, Firefox)</strong></p>
+      <p>If you’re trying to visit a website and your browser says <strong>“Malware Blocked”</strong>, it’s warning you that the site might be dangerous.</p>
+      <p><strong>How to deal with it:</strong></p>
+
+            <ol>
+                <li><span class="bold">Don’t ignore the warning</span>, unless you fully trust the website.</li>
+                <li>Double-check the website address (URL) for misspellings or strange domain endings.</li>
+                <li>If you trust the site (maybe it’s your own), you can proceed at your own risk:</li>
+                <ul>
+                <li>Chrome: Click "Details", then "Visit this unsafe site" (not recommended unless you are sure).</li>
+                </ul>
+            </ol>
+                <p> I can give you more direct steps if you tell me What you’re trying to do when it happens (open a file, visit a site, install something)</p>
+            `;
+
+      let i = 0;
+
+      function typeHTML() {
+        if (i < htmlToType.length) {
+          target.innerHTML = htmlToType.slice(0, i + 1);
+          i++;
+          setTimeout(typeHTML, 5); // speed
+        } 
+      }
+
+      typeHTML();
+    });
+  </script>
+</body>
+</html>
+
+
+

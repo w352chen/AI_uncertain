@@ -138,7 +138,6 @@
       r: 0.5; /* tiny dot to simulate a blink */
     }
 
-
     /* Expression change (uncertain) */
     .mouth-uncertain {
       d: path("M 80 70 Q 100 60 120 70");
@@ -153,9 +152,8 @@
 </head>
 <body>
   <div class="chat-container">
-    <h2 style="margin-bottom: 10px;">Tutorial 4</h2>
     <div class="message image-message">
-      How to solve malware blocked?
+      How would you view autodrive in the next 20 years?
     </div>
 
     <div class="message chatgpt-message medium">
@@ -174,12 +172,13 @@
             <!-- Mouth -->
             <!-- <path id="mouth" d="M 80 70 Q 100 60 120 70" stroke="#1565c0" stroke-width="3" fill="transparent" stroke-linecap="round"/> -->
             <path id="mouth" d="M 80 70 Q 100 70 120 70" stroke="#1565c0" stroke-width="3" fill="transparent" stroke-linecap="round"/>
+
           </g>
           <!-- Left Arm -->
           <path d="M60,120 Q30,170 50,200" stroke="#1565c0" stroke-width="4" fill="none" />
-          <!-- Right Arm (拄着头) -->
-          <!-- <path d="M140,120 Q170,150 130,170 Q120,160 125,150" stroke="#1565c0" stroke-width="4" fill="none" /> -->
+          <!-- Right Arm (mirrored style) -->
           <path d="M140,120 Q170,170 150,200" stroke="#1565c0" stroke-width="4" fill="none" />
+
           <!-- Legs -->
           <line x1="70" y1="250" x2="70" y2="290" stroke="#1565c0" stroke-width="4"/>
           <line x1="130" y1="250" x2="130" y2="290" stroke="#1565c0" stroke-width="4"/>
@@ -206,21 +205,29 @@
         const eyeRight = document.getElementById("eye-right");
         const mouth = document.getElementById("mouth");
 
-        const htmlToType = `<p>Could you clarify a bit? Are you seeing "Malware Blocked" on your browser, antivirus, or somewhere else? Depending on where the warning is showing up, the steps to fix or bypass it will vary. Here are a few common scenarios and what to do in each:</p>
-      <p><strong>1. Browser Warning (e.g., Chrome, Edge, Firefox)</strong></p>
-      <p>If you’re trying to visit a website and your browser says <strong>“Malware Blocked”</strong>, it’s warning you that the site might be dangerous.</p>
-      <p><strong>How to deal with it:</strong></p>
-
-            <ol>
-                <li><span class="bold">Don’t ignore the warning</span>, unless you fully trust the website.</li>
-                <li>Double-check the website address (URL) for misspellings or strange domain endings.</li>
-                <li>If you trust the site (maybe it’s your own), you can proceed at your own risk:</li>
-                <ul>
-                <li>Chrome: Click "Details", then "Visit this unsafe site" (not recommended unless you are sure).</li>
-                </ul>
-            </ol>
-                <p> I can give you more direct steps if you tell me What you’re trying to do when it happens (open a file, visit a site, install something)</p>
-            `;
+        const htmlToType = `<p>Over the next 20 years, I see autonomous driving evolving from advanced driver-assist features to a mainstream, integrated part of our transportation ecosystem. We witness:
+          <ol>
+          <li><span class="bold">Increased Adoption and Integration: </span> 
+            Self-driving vehicles could become a common sight on our roads—ranging from personal vehicles and ride-sharing fleets to public transportation systems.
+            </li>
+            <li><span class="bold">Enhanced Safety and Efficiency: </span>
+              With advances in AI, sensor technologies, and machine learning, these vehicles may dramatically reduce accidents, optimize traffic flow, and lower congestion.
+            </li>
+            <li>
+              <span class="bold">Urban and Infrastructure Transformation: </span>
+              As autonomous vehicles become prevalent, we could see significant shifts in urban planning, such as reimagined parking, smarter road designs, and integrated transportation networks.
+            </li>
+            <li>
+              <span class="bold">Regulatory and Ethical Challenges: </span>
+              The transition will also require robust regulatory frameworks, cybersecurity measures, and solutions to ethical dilemmas—especially when it comes to decision-making in critical situations.
+            </li>
+            <li>
+              <span class="bold">Environmental and Economic Impact: </span>
+              Autonomous driving might contribute to lower emissions through optimized driving patterns and shared mobility models, while also reshaping industries related to automotive manufacturing, insurance, and logistics.
+            </li>
+          </ol>
+        <p>Overall, while there are challenges to address, the potential benefits in terms of safety, efficiency, and environmental sustainability suggest that autodrive could be a transformative force in how we travel and live.
+        </p>`;
 
         let i = 0;
 
@@ -238,19 +245,15 @@
           thinkingBubble.classList.add("fly-away");
 
           // Blink eyes
-          
-          // Blink eyes (apply blink directly to eyes)
-eyeLeft.classList.add("blink");
-eyeRight.classList.add("blink");
-
-setTimeout(() => {
-  eyeLeft.classList.remove("blink");
-  eyeRight.classList.remove("blink");
-}, 400);
-
+          aiThinking.classList.add("blink");
+          setTimeout(() => {
+            aiThinking.classList.remove("blink");
+          }, 400);
 
           // Change mouth expression (uncertain)
-          mouth.setAttribute("d", "M 80 70 Q 100 50 120 70");
+          // mouth.setAttribute("d", "M 80 70 Q 100 50 120 70");
+          mouth.setAttribute("d", "M 80 70 Q 100 70 120 70");
+
 
           setTimeout(() => {
             aiThinking.classList.add("fade-out");

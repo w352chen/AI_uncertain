@@ -269,10 +269,10 @@
 <body>
   <div id="startPage" class="page" style="display: flex;">
     <h1>Welcome to the AI Uncertainty Visualization UI Experiment</h1>
-    <p>Please select your participant number (1–35):</p>
+    <p>Please select your participant number (1–36):</p>
     <select id="participantSelect">
       <script>
-        for (let i = 1; i <= 35; i++) {
+        for (let i = 1; i <= 36; i++) {
           document.write('<option value="' + i + '">' + i + '</option>');
         }
       </script>
@@ -304,13 +304,13 @@
     const tutorialFiles = ["tutorial1.html", "tutorial2.html", "tutorial3.html", "tutorial4.html"];
     const effectFiles = [
       "bar_low.html", "bar_mid.html", "bar_high.html",
-      "colour_coded_low.html", "colour_coded_high.html", "colour_coded_mid.html",
+      "colour_coded_low.html", "colour_coded_mid.html","colour_coded_high.html", 
       "ocean_low.html", "ocean_mid.html", "ocean_high.html",
       "shaking_low.html", "shaking_mid.html", "shaking_high.html",
-      "hesitate_mid.html", "hesitate_low.html",
-      "outline_high.html", "outline_low.html", "outline_mid.html",
-      "reason_low.html", "reason_mid.html", "reason_high.html",
-      "ring_low.html", "ring_high.html", "ring_mid.html",
+      "hesitate_low.html", "hesitate_mid.html", 
+      "outline_low.html", "outline_mid.html", "outline_high.html",
+      "ai_low.html", "ai_mid.html", "ai_high.html",
+      "ring_low.html", "ring_mid.html", "ring_high.html", 
       "default.html"
     ];
 
@@ -356,39 +356,30 @@
       document.getElementById("surveySummaryPage").style.display = "flex";
 
       const surveyDisplay = document.getElementById("surveyDisplay");
-      const participantId = document.getElementById("participantSelect").value;
+      surveyDisplay.innerHTML = `<button onclick="downloadCSV()">Download CSV</button>`;
+    }
 
-      let html = `
-        <table>
-          <thead>
-            <tr>
-              <th>Participant</th>
-              <th>Effect</th>
-              <th>Trust</th>
-              <th>Certainty</th>
-              <th>Confidence Impact</th>
-              <th>Clarity</th>
-            </tr>
-          </thead>
-          <tbody>
-      `;
+
+    function downloadCSV() {
+      const participantId = document.getElementById("participantSelect").value;
+      let csv = "Participant,Effect,Certainty,Trust,Confidence,Accuracy,Understanding,Follow,Design\n";
 
       for (const entry of surveyData) {
-        html += `
-          <tr>
-            <td>${participantId}</td>
-            <td>${entry.effect}</td>
-            <td>${entry.responses.ai_trust}</td>
-            <td>${entry.responses.ai_uncertainty}</td>
-            <td>${entry.responses.ai_confidence}</td>
-            <td>${entry.responses.ai_visualization_clarity}</td>
-          </tr>
-        `;
+        const r = entry.responses;
+        csv += `${participantId},${entry.effect},${r.ai_certainty},${r.trust},${r.confidence},${r.accuracy},${r.understanding},${r.follow},${r.design}\n`;
       }
 
-      html += `</tbody></table>`;
-      surveyDisplay.innerHTML = html;
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Participant_${participantId}_Survey.csv`;
+      a.click();
+
+      URL.revokeObjectURL(url);
     }
+
 
     function showThankYouPage() {
       document.getElementById("surveySummaryPage").style.display = "none";
@@ -398,25 +389,51 @@
     document.getElementById("startBtn").addEventListener("click", startExperiment);
 
     document.getElementById("nextBtn").addEventListener("click", function () {
+  const frame = document.getElementById("effectFrame");
+  if (effectOrder[currentEffectIndex] === "survey.html") {
+    // Let survey.html know to send data
+    frame.contentWindow.postMessage("requestSurveyData", "*");
+
+    // Delay loading next effect to wait for message
+    setTimeout(() => {
       currentEffectIndex++;
       if (currentEffectIndex < effectOrder.length) {
         loadEffect(effectOrder[currentEffectIndex]);
       } else {
         showSurveySummaryPage();
       }
-    });
+    }, 300); // gives time for data to come through
+  } else {
+    currentEffectIndex++;
+    if (currentEffectIndex < effectOrder.length) {
+      loadEffect(effectOrder[currentEffectIndex]);
+    } else {
+      showSurveySummaryPage();
+    }
+  }
+});
+
 
     document.getElementById("goToThankYou").addEventListener("click", showThankYouPage);
 
     window.addEventListener("message", function (event) {
-      if (typeof event.data === "object" && event.data.surveyResponses) {
-        surveyData.push({
-          effect: latestEffect,
-          responses: event.data.surveyResponses
-        });
-        console.log("Collected survey response for:", latestEffect);
-      }
-    });
+  if (typeof event.data === "object" && event.data.surveyResponses) {
+    const responses = event.data.surveyResponses;
+
+    // Only store if at least one field is answered
+    const hasResponse = Object.values(responses).some(val => val !== "");
+    if (hasResponse) {
+      surveyData.push({
+        effect: latestEffect,
+        responses: responses
+      });
+      console.log("Stored:", latestEffect, responses);
+    } else {
+      console.log("Skipped empty survey for:", latestEffect);
+    }
+  }
+});
+
   </script>
 </body>
 </html>

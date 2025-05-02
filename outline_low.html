@@ -120,13 +120,19 @@
     }
 
     .chatgpt-message {
-  position: relative;
-  display: inline-block;
-  padding: 30px;
-  margin: 20px;
-}
+      align-self: flex-start;
+      text-align: left;
+      max-width: 100%;
+      border: 2px dashed #ddd;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      margin: 20px;
+      position: relative;
+    }
 
-.wave-outline {
+
+/* .wave-outline {
   position: absolute;
   top: 0;
   left: 0;
@@ -134,7 +140,7 @@
   height: 100%;
   pointer-events: none;
   z-index: 0;
-}
+} */
 
 .chatgpt-content {
   position: relative;
@@ -142,13 +148,6 @@
   background: white;
   padding: 20px;
 }
-
-
-
-
-
-
-
 
     .image-message {
         align-self: flex-end;
@@ -245,59 +244,7 @@
                  S 0 50, 0 0" fill="none" stroke="black" stroke-width="2"/>
       </svg> -->
 
-      <svg class="wave-outline" viewBox="-40 -40 1592 1592" preserveAspectRatio="none">
-        <!-- Top -->
-        <path d="
-          M 0 0 
-          C 100 0, 150 80, 200 40 
-          S 300 0, 400 40 
-          S 500 0, 600 40 
-          S 700 0, 800 40 
-          S 900 0, 1000 40 
-          S 1100 0, 1200 40 
-          S 1300 0, 1400 40 
-          S 1450 0, 1512 0" 
-          fill="none" stroke="black" stroke-width="2" />
       
-        <!-- Right -->
-        <path d="
-          M 1512 0 
-          C 1512 100, 1432 150, 1472 200 
-          S 1512 300, 1472 400 
-          S 1512 500, 1472 600 
-          S 1512 700, 1472 800 
-          S 1512 900, 1472 1000 
-          S 1512 1100, 1472 1200 
-          S 1512 1300, 1472 1400 
-          S 1512 1450, 1512 1512" 
-          fill="none" stroke="black" stroke-width="2" />
-      
-        <!-- Bottom -->
-        <path d="
-          M 1512 1512 
-          C 1400 1512, 1350 1432, 1300 1472 
-          S 1200 1512, 1100 1472 
-          S 1000 1512, 900 1472 
-          S 800 1512, 700 1472 
-          S 600 1512, 500 1472 
-          S 400 1512, 300 1472 
-          S 200 1512, 100 1472 
-          S 50 1512, 0 1512" 
-          fill="none" stroke="black" stroke-width="2" />
-      
-        <!-- Left -->
-        <path d="
-          M 0 1512 
-          C 0 1400, 80 1350, 40 1300 
-          S 0 1200, 40 1100 
-          S 0 1000, 40 900 
-          S 0 800, 40 700 
-          S 0 600, 40 500 
-          S 0 400, 40 300 
-          S 0 200, 40 100 
-          S 0 50, 0 0" 
-          fill="none" stroke="black" stroke-width="2" />
-      </svg>
       
       
       <div id="typing-target"></div>

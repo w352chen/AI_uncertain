@@ -226,6 +226,32 @@
       width: 100%;
       border-collapse: collapse;
     }
+    .likert-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.likert-table th,
+.likert-table td {
+  white-space: normal;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Widen the first column (for the statement text) */
+.likert-table td:first-child,
+.likert-table th:first-child {
+  width: 30%; /* You can tweak this: 30% for statements, 70% split among 7 options = 10% each */
+  text-align: left;
+  padding-right: 10px;
+}
+
+.likert-table th:not(:first-child),
+.likert-table td:not(:first-child) {
+  width: 10%;
+}
+
+
 
     th, td {
       text-align: center;
@@ -275,7 +301,8 @@
 
   <!-- Grouped Likert Table -->
   <div class="survey-card">
-    <table>
+    <table class="likert-table">
+
       <caption>Please indicate how much you agree with the following statements:</caption>
       <thead>
         <tr>
@@ -283,7 +310,7 @@
           <th>Strongly Disagree</th>
           <th>Disagree</th>
           <th>Somewhat Disagree</th>
-          <th>Neutral/Unsure</th>
+          <th>Neutral/<br>Unsure</th>
           <th>Somewhat Agree</th>
           <th>Agree</th>
           <th>Strongly Agree</th>
@@ -292,6 +319,7 @@
       <tbody>
         <tr>
           <td>I trust the AI’s response.</td>
+          <div class="likert-scale-custom">
           <td><input type="radio" name="trust" value="1"></td>
           <td><input type="radio" name="trust" value="2"></td>
           <td><input type="radio" name="trust" value="3"></td>
@@ -299,6 +327,7 @@
           <td><input type="radio" name="trust" value="5"></td>
           <td><input type="radio" name="trust" value="6"></td>
           <td><input type="radio" name="trust" value="7"></td>
+        </div>
         </tr>
         <tr>
           <td>The AI was confident in its answer.</td>
@@ -376,12 +405,30 @@
   }
 
   // When survey is loaded and request comes in
+  // window.addEventListener("message", function (event) {
+  //   if (event.data === "requestSurveyData") {
+  //     // delay to ensure user finished selecting (in case Next is pressed too fast)
+  //     setTimeout(collectSurveyData, 100); 
+  //   }
+  // });
+
   window.addEventListener("message", function (event) {
-    if (event.data === "requestSurveyData") {
-      // delay to ensure user finished selecting (in case Next is pressed too fast)
-      setTimeout(collectSurveyData, 100); 
-    }
-  });
+  if (event.data === "requestSurveyData") {
+    const responses = {
+      ai_certainty: document.querySelector('input[name="ai_certainty"]:checked')?.value || "",
+      trust: document.querySelector('input[name="trust"]:checked')?.value || "",
+      confidence: document.querySelector('input[name="confidence"]:checked')?.value || "",
+      accuracy: document.querySelector('input[name="accuracy"]:checked')?.value || "",
+      understanding: document.querySelector('input[name="understanding"]:checked')?.value || "",
+      follow: document.querySelector('input[name="follow"]:checked')?.value || "",
+      design: document.querySelector('input[name="design"]:checked')?.value || ""
+    };
+
+    parent.postMessage({ surveyResponses: responses }, "*");
+  }
+});
+
+
   </script>
   
 </body>

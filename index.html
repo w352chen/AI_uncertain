@@ -301,7 +301,7 @@
   </div>
 
   <script>
-    const tutorialFiles = ["tutorial1.html", "tutorial2.html", "tutorial3.html", "tutorial4.html"];
+    const tutorialFiles = ["intro.html", "tutorial1.html", "tutorial2.html", "tutorial3.html", "tutorial4.html"];
     const effectFiles = [
       "bar_low.html", "bar_mid.html", "bar_high.html",
       "colour_coded_low.html", "colour_coded_mid.html","colour_coded_high.html", 
@@ -322,6 +322,8 @@
     let currentEffectIndex = 0;
     let surveyData = [];
     let latestEffect = "";
+    let waitingForSurveyResponse = false;
+
 
     function loadEffect(fileName) {
       const frame = document.getElementById("effectFrame");
@@ -390,29 +392,27 @@
 
     document.getElementById("nextBtn").addEventListener("click", function () {
   const frame = document.getElementById("effectFrame");
-  if (effectOrder[currentEffectIndex] === "survey.html") {
-    // Let survey.html know to send data
-    frame.contentWindow.postMessage("requestSurveyData", "*");
+  const currentFile = effectOrder[currentEffectIndex];
 
-    // Delay loading next effect to wait for message
-    setTimeout(() => {
-      currentEffectIndex++;
-      if (currentEffectIndex < effectOrder.length) {
-        loadEffect(effectOrder[currentEffectIndex]);
-      } else {
-        showSurveySummaryPage();
-      }
-    }, 300); // gives time for data to come through
+  if (waitingForSurveyResponse) return;
+
+  if (currentFile === "survey.html") {
+    waitingForSurveyResponse = true;
+    expectingSurveyResponse = true; // <-- track that this message is for a survey
+    frame.contentWindow.postMessage("requestSurveyData", "*");
   } else {
     currentEffectIndex++;
-    if (currentEffectIndex < effectOrder.length) {
-      loadEffect(effectOrder[currentEffectIndex]);
-    } else {
-      showSurveySummaryPage();
-    }
+    loadNextEffect();
   }
 });
 
+function loadNextEffect() {
+  if (currentEffectIndex < effectOrder.length) {
+    loadEffect(effectOrder[currentEffectIndex]);
+  } else {
+    showSurveySummaryPage();
+  }
+}
 
     document.getElementById("goToThankYou").addEventListener("click", showThankYouPage);
 
@@ -420,17 +420,29 @@
   if (typeof event.data === "object" && event.data.surveyResponses) {
     const responses = event.data.surveyResponses;
 
-    // Only store if at least one field is answered
-    const hasResponse = Object.values(responses).some(val => val !== "");
-    if (hasResponse) {
-      surveyData.push({
-        effect: latestEffect,
-        responses: responses
-      });
-      console.log("Stored:", latestEffect, responses);
-    } else {
-      console.log("Skipped empty survey for:", latestEffect);
+    if (!expectingSurveyResponse) {
+      // Ignore stray messages (e.g. from intro.html)
+      return;
     }
+
+    expectingSurveyResponse = false;
+
+    const allAnswered = Object.values(responses).every(val => val !== "");
+
+    if (!allAnswered) {
+      alert("Please answer all questions before continuing.");
+      waitingForSurveyResponse = false;
+      return;
+    }
+
+    surveyData.push({
+      effect: latestEffect,
+      responses: responses
+    });
+
+    currentEffectIndex++;
+    loadNextEffect();
+    waitingForSurveyResponse = false;
   }
 });
 
